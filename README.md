@@ -36,13 +36,13 @@ Every image is annotated by its primary visible garment. Classes are sorted in s
 | **2** | `Jeans - Trousers` | Western | Fashion Product Images Small (Kaggle) |
 | **3** | `Kurta` | Ethnic | IndoFashion (`women_kurta`, `kurta_men`) |
 | **4** | `Lehenga` | Ethnic | IndoFashion (`lehenga`) |
-| **5** | `Nehru Jacket` | Ethnic | IndoFashion (`nehru_jackets`) |
+| **5** | `Waistcoat` | Ethnic | IndoFashion (`nehru_jackets`) |
 | **6** | `Saree` | Ethnic | IndoFashion (`saree`) |
 | **7** | `Sherwani` | Ethnic | IndoFashion (`sherwanis`) |
 | **8** | `Shirt` | Western | Fashion Product Images Small (Kaggle) |
 | **9** | `T-shirt` | Western | Fashion Product Images Small (Kaggle) |
 
-*Scope Note:* *Shalwar Kameez* was substituted with *Nehru Jacket* from IndoFashion after discovering the public Roboflow dataset provided only 93 unique base images (< 150 project threshold), ensuring an exact 260 images per class and an exact 1.0x balance ratio.
+*Scope Note:* *Shalwar Kameez* was substituted with *Waistcoat* from IndoFashion (`nehru_jackets`) after discovering the public Roboflow dataset provided only 93 unique base images (< 150 project threshold), ensuring an exact 260 images per class and an exact 1.0x balance ratio.
 
 ---
 
@@ -61,7 +61,7 @@ Evaluated on the fixed, held-out **390-image test set** (39 images per class, st
 | **TF.js Parity Discrepancy** | — | **$\le 0.000001$ (PASSED)** |
 
 ### Key Perception Finding
-Western classes (93.33% accuracy; Jeans 100%, Dress 97.4%, T-shirt 93.8%) outperform ethnic classes (82.56% accuracy; Lehenga 100%, Nehru Jacket 94.9%, Sherwani 87.2%, Saree 66.7%, Kurta 64.1%) due to rigid silhouette geometries versus fluid fabric draping plasticity and collar overlaps (Kurta vs Sherwani).
+Western classes (93.33% accuracy; Jeans 100%, Dress 97.4%, T-shirt 93.8%) outperform ethnic classes (82.56% accuracy; Lehenga 100%, Waistcoat 94.9%, Sherwani 87.2%, Saree 66.7%, Kurta 64.1%) due to rigid silhouette geometries versus fluid fabric draping plasticity and collar overlaps (Kurta vs Sherwani).
 
 ---
 

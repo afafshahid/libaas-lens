@@ -18,7 +18,7 @@
 
 Automated apparel visual perception represents a cornerstone of modern computer vision, powering e-commerce cataloging, visual search, and smart wardrobe systems. However, mainstream commercial and academic benchmarks exhibit severe geographic and cultural bias, heavily prioritizing Western garments (e.g., T-shirts, dresses, jeans) while neglecting traditional South Asian attire worn daily by over 1.8 billion people. In Pakistan, the sartorial reality is uniquely hybrid: individuals alternate seamlessly between traditional ethnic attire and contemporary Western fashion. 
 
-In this work, we present **Libaas Lens** (*لباس لینز*), a unified deep transfer-learning perception framework capable of accurately categorizing apparel into a balanced 10-class taxonomy spanning five ethnic categories (*Kurta*, *Lehenga*, *Nehru Jacket*, *Saree*, *Sherwani*) and five Western categories (*Dress*, *Jacket - Blazer*, *Jeans - Trousers*, *Shirt*, *T-shirt*). Using a curated and balanced dataset of 2,600 images (260 per class) partitioned into a strict 70/15/15 stratified split, we evaluate two MobileNetV2 configurations: a frozen feature-extraction baseline and an end-to-end fine-tuned network. On a held-out test split of 390 unseen images, our models achieve **88.21%** (Baseline) and **87.95%** (Fine-Tuned) overall accuracy, with macro F1-scores of **88.06%** and **87.71%**, respectively. 
+In this work, we present **Libaas Lens** (*لباس لینز*), a unified deep transfer-learning perception framework capable of accurately categorizing apparel into a balanced 10-class taxonomy spanning five ethnic categories (*Kurta*, *Lehenga*, *Waistcoat*, *Saree*, *Sherwani*) and five Western categories (*Dress*, *Jacket - Blazer*, *Jeans - Trousers*, *Shirt*, *T-shirt*). Using a curated and balanced dataset of 2,600 images (260 per class) partitioned into a strict 70/15/15 stratified split, we evaluate two MobileNetV2 configurations: a frozen feature-extraction baseline and an end-to-end fine-tuned network. On a held-out test split of 390 unseen images, our models achieve **88.21%** (Baseline) and **87.95%** (Fine-Tuned) overall accuracy, with macro F1-scores of **88.06%** and **87.71%**, respectively. 
 
 Crucially, our perception analysis reveals a pronounced empirical disparity between Western wear (93.33% accuracy) and ethnic apparel (82.56% accuracy), driven by drape variability, folding plasticity, and collar geometries. Finally, we convert the trained model into a production-ready TensorFlow.js Graph Model with embedded preprocessing layers, achieving 100% classification parity ($\le 0.0001\%$ probability discrepancy) and enabling zero-server-upload, zero-latency inference directly in the client's web browser.
 
@@ -29,7 +29,7 @@ Crucially, our perception analysis reveals a pronounced empirical disparity betw
 ### 1.1 The Cultural Perception Gap in Fashion AI
 Deep convolutional neural networks (CNNs) have revolutionized image classification, object detection, and visual perception. Within the fashion domain, benchmark datasets such as DeepFashion (Liu et al., 2016), Fashion-MNIST (Xiao et al., 2017), and the Kaggle Fashion Product dataset have served as standard proving grounds. However, an inspection of these benchmarks reveals a stark cultural asymmetry: almost all annotated classes represent Western attire.
 
-In Pakistan and the wider South Asian diaspora, apparel is inherently pluralistic. The same wardrobe accommodates both Western daily wear (denim jeans, polo shirts, formal blazers) and rich ethnic traditions spanning daily cotton kurtas, embroidered festive sherwanis, bridal lehengas, formal sarees, and Nehru jackets. When applied to Pakistani e-commerce storefronts, social media tagging, or personal wardrobe inventories, commercial computer vision APIs frequently fail—misclassifying a long men's *Kurta* as a women's *Dress*, or a structured *Sherwani* as an oversized *Jacket*.
+In Pakistan and the wider South Asian diaspora, apparel is inherently pluralistic. The same wardrobe accommodates both Western daily wear (denim jeans, polo shirts, formal blazers) and rich ethnic traditions spanning daily cotton kurtas, embroidered festive sherwanis, bridal lehengas, formal sarees, and formal waistcoats (*waskat*). When applied to Pakistani e-commerce storefronts, social media tagging, or personal wardrobe inventories, commercial computer vision APIs frequently fail—misclassifying a long men's *Kurta* as a women's *Dress*, or a structured *Sherwani* as an oversized *Jacket*.
 
 ### 1.2 Research Objectives
 The primary objective of the **Libaas Lens** project is to formulate, implement, and rigorously benchmark a single, efficient deep learning classifier that bridges this divide without sacrificing inference efficiency. Specifically, the project addresses four core challenges:
@@ -65,7 +65,7 @@ We defined a mutually exclusive 10-class taxonomy comprising five Pakistani ethn
 | 2 | `Jeans - Trousers` | Western | Fashion Product Images Small (Kaggle) |
 | 3 | `Kurta` | Ethnic | IndoFashion (`women_kurta`, `kurta_men`) |
 | 4 | `Lehenga` | Ethnic | IndoFashion (`lehenga`) |
-| 5 | `Nehru Jacket` | Ethnic | IndoFashion (`nehru_jackets`) |
+| 5 | `Waistcoat` | Ethnic | IndoFashion (`nehru_jackets`) |
 | 6 | `Saree` | Ethnic | IndoFashion (`saree`) |
 | 7 | `Sherwani` | Ethnic | IndoFashion (`sherwanis`) |
 | 8 | `Shirt` | Western | Fashion Product Images Small (Kaggle) |
@@ -74,13 +74,13 @@ We defined a mutually exclusive 10-class taxonomy comprising five Pakistani ethn
 #### Annotation & Perception Rules:
 1. **Primary Garment Rule:** Each photograph is assigned exactly one label corresponding to the primary focal garment.
 2. **Kurta vs. Complete Suit:** In alignment with our approved taxonomy, garments displaying an upper tunic without distinct two-piece shalwar/trouser composition are categorized as **Kurta**.
-3. **Nehru Jacket:** Characterized by a sleeveless vest silhouette with an upright mandarin band collar and front button placket.
+3. **Waistcoat:** Characterized by a sleeveless ethnic vest silhouette with an upright mandarin band collar and front button placket (cataloged as *nehru_jackets* in IndoFashion).
 4. **Sherwani:** Characterized by a long, structured coat/tunic with formal collar, structured shoulders, front closure, and ceremonial fabrics.
 
 ### 3.2 Data Sourcing and Pipeline
 - **IndoFashion:** Sourced from the official IndoFashion benchmark (Rajput & Aneja, 2021). JSON annotation records (`train_data.json`, `val_data.json`, `test_data.json`) were parsed to extract verified product images.
 - **Fashion Product Images Small:** Sourced from Param Aggarwal's open e-commerce benchmark on Kaggle. Metadata catalog records (`styles.csv`) were indexed to isolate target `articleType` categories (`Dresses`, `Jackets`, `Blazers`, `Jeans`, `Trousers`, `Shirts`, `Tshirts`).
-- **Pakistani Clothes (Roboflow Universe):** Evaluated as a potential source for *Shalwar Kameez*. Bounding boxes and class annotations were inspected. However, filtering for two-piece suits yielded only 93 unique base images (< 150 project threshold). Per project protocols, this class was substituted with *Nehru Jacket* from IndoFashion, securing 260 pristine images and preserving perfect class balance.
+- **Pakistani Clothes (Roboflow Universe):** Evaluated as a potential source for *Shalwar Kameez*. Bounding boxes and class annotations were inspected. However, filtering for two-piece suits yielded only 93 unique base images (< 150 project threshold). Per project protocols, this class was substituted with *Waistcoat* from IndoFashion (`nehru_jackets`), securing 260 pristine images and preserving perfect class balance.
 
 ### 3.3 Cleaning, Deduplication & Quality Filtering
 The data ingestion pipeline (`prepare_data.py`) applied automated quality verification:
@@ -194,7 +194,7 @@ The table below details per-class performance for the **Fine-Tuned Model** on th
 | **Jeans - Trousers** | Western | **1.0000** | **1.0000** | **1.0000** | 39 |
 | **Kurta** | Ethnic | 0.8333 | 0.6410 | 0.7246 | 39 |
 | **Lehenga** | Ethnic | 0.7647 | **1.0000** | 0.8667 | 39 |
-| **Nehru Jacket** | Ethnic | 0.8810 | 0.9487 | **0.9136** | 39 |
+| **Waistcoat** | Ethnic | 0.8810 | 0.9487 | **0.9136** | 39 |
 | **Saree** | Ethnic | **0.9630** | 0.6667 | 0.7879 | 39 |
 | **Sherwani** | Ethnic | 0.7556 | 0.8718 | 0.8095 | 39 |
 | **Shirt** | Western | 0.8182 | 0.9231 | 0.8675 | 39 |
@@ -211,7 +211,7 @@ Predicted Class Index:
 [2]     0     0    39     0     0     0     0     0     0     0   | Jeans - Trousers (Western)
 [3]     0     0     0    25     0     5     0     9     0     0   | Kurta (Ethnic)
 [4]     0     0     0     0    39     0     0     0     0     0   | Lehenga (Ethnic)
-[5]     0     0     0     1     0    37     0     1     0     0   | Nehru Jacket (Ethnic)
+[5]     0     0     0     1     0    37     0     1     0     0   | Waistcoat (Ethnic)
 [6]     0     0     0     1    11     0    26     1     0     0   | Saree (Ethnic)
 [7]     0     0     0     3     1     0     1    34     0     0   | Sherwani (Ethnic)
 [8]     0     1     0     0     0     0     0     0    36     2   | Shirt (Western)
@@ -225,7 +225,7 @@ Predicted Class Index:
 ```
 Key Visual Confusion Modes Identified:
 1. Kurta (25/39)  --->  Sherwani (9/39)    [Collar/Tunic Silhouette Ambiguity]
-2. Kurta (25/39)  --->  Nehru Jacket (5/39) [Mandarin Band Collar Feature Dominance]
+2. Kurta (25/39)  --->  Waistcoat (5/39)   [Mandarin Band Collar Feature Dominance]
 3. Saree (26/39)  --->  Lehenga (11/39)    [Pleated Skirt & Embroidered Fall Resemblance]
 4. Jacket (32/39) --->  Shirt (7/39)       [Open Collar & Lapel Confusion]
 ```
@@ -281,7 +281,7 @@ In accordance with strict academic integrity guidelines, all scope adjustments a
 
 | Proposed Item | Final Delivered Implementation | Academic & Empirical Rationale |
 | :--- | :--- | :--- |
-| **Shalwar Kameez Class** | Replaced with **Nehru Jacket** (`nehru_jackets` from IndoFashion) | The open Roboflow "Pakistani clothes" dataset contained only 93 unique base images of two-piece Shalwar Kameez suits, failing our project threshold of $\ge 150$ images. Replacing it with *Nehru Jacket* secured 260 verified images and maintained a uniform 1.0x ratio across all 10 classes without synthetic imbalance. |
+| **Shalwar Kameez Class** | Replaced with **Waistcoat** (`nehru_jackets` in IndoFashion) | The open Roboflow "Pakistani clothes" dataset contained only 93 unique base images of two-piece Shalwar Kameez suits, failing our project threshold of $\ge 150$ images. Replacing it with *Waistcoat* secured 260 verified images and maintained a uniform 1.0x ratio across all 10 classes without synthetic imbalance. |
 | **Own-Photo Test Split** | Public held-out test split only ($N=390$); own-photo collection deferred to future work | Sourcing high-quality, privacy-compliant, un-identifiable photographs of 10 distinct garment types across wardrobes required extended collection time. Standardizing on the held-out public split ensured verifiable, reproducible benchmarks. |
 | **Keras Layers Model Export** | Exported as optimized **TensorFlow.js Graph Model** | The Graph Model enables operator fusion (fused Conv2D + Relu6 + BiasAdd) and smaller binary weight sharding, yielding faster browser execution and memory management. |
 
@@ -290,7 +290,7 @@ In accordance with strict academic integrity guidelines, all scope adjustments a
 ## 9. Limitations & Future Work
 
 1. **Resolution Constraints:** Standard $224 \times 224$ MobileNetV2 spatial downsampling compresses micro-textile textures (e.g., woven jacquard, delicate zari threadwork, button engravings) that are critical for separating Kurta from Sherwani. Future work should evaluate higher-resolution backbones (e.g., EfficientNetV2-S at $384 \times 384$).
-2. **Multi-Label Garment Assemblies:** In real-world wardrobes, users frequently wear assemblies (e.g., a Nehru Jacket over a Kurta, or a Blazer over a T-shirt). Extending Libaas Lens to multi-label classification or integrating bounding-box detection (e.g., YOLOv8-Nano) would enable simultaneous multi-garment parsing.
+2. **Multi-Label Garment Assemblies:** In real-world wardrobes, users frequently wear assemblies (e.g., a Waistcoat over a Kurta, or a Blazer over a T-shirt). Extending Libaas Lens to multi-label classification or integrating bounding-box detection (e.g., YOLOv8-Nano) would enable simultaneous multi-garment parsing.
 3. **Smartphone In-the-Wild Testing:** While retail catalog photographs provide clean white backgrounds, real-world smartphone photos introduce complex backgrounds, wrinkles, and low lighting. Domain adaptation via unsupervised contrastive learning (e.g., SimCLR) presents a promising avenue for closing this domain shift.
 
 ---

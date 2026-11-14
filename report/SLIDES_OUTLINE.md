@@ -37,17 +37,17 @@
 
 ## Slide 3: The 10-Class Taxonomy & Annotation Rules
 - **5 Pakistani Ethnic Classes:**
-  - `Kurta`, `Lehenga`, `Nehru Jacket`, `Saree`, `Sherwani`
+  - `Kurta`, `Lehenga`, `Waistcoat`, `Saree`, `Sherwani`
 - **5 Western Classes:**
   - `Dress`, `Jacket - Blazer`, `Jeans - Trousers`, `Shirt`, `T-shirt`
 - **Core Annotation Rules:**
   - **Single Label Rule:** Each photo is classified by its primary garment.
   - **Kurta:** Upper tunic without distinct lower trousers.
-  - **Nehru Jacket:** Sleeveless waistcoat with mandarin band collar.
+  - **Waistcoat:** Sleeveless ethnic vest with mandarin band collar (cataloged as *nehru_jackets* in IndoFashion).
   - **Sherwani:** Structured ceremonial coat with high collar and front placket.
-- **Scope Note:** Replaced *Shalwar Kameez* with *Nehru Jacket* after discovering the public Roboflow dataset provided only 93 unique images (< 150 threshold).
+- **Scope Note:** Replaced *Shalwar Kameez* with *Waistcoat* after discovering the public Roboflow dataset provided only 93 unique images (< 150 threshold).
 - **Speaker Notes:**
-  > "We established a clean 10-class taxonomy. To ensure empirical honesty, when our initial candidate dataset for Shalwar Kameez only yielded 93 usable base images, rather than artificially inflating the data, we substituted it with Nehru Jackets from IndoFashion, maintaining an exact 260-image cap across all 10 classes."
+  > "We established a clean 10-class taxonomy. To ensure empirical honesty, when our initial candidate dataset for Shalwar Kameez only yielded 93 usable base images, rather than artificially inflating the data, we substituted it with Waistcoats from IndoFashion, maintaining an exact 260-image cap across all 10 classes."
 
 ---
 
@@ -184,7 +184,7 @@
   - Deployed private, client-side web application with 100% mathematical parity.
 - **Future Directions:**
   - Higher-resolution backbones (e.g., EfficientNetV2 at $384 \times 384$) to capture micro-embroidery textures.
-  - Multi-label classification for layered outfits (e.g., Nehru Jacket over a Kurta).
+  - Multi-label classification for layered outfits (e.g., Waistcoat over a Kurta).
   - In-the-wild smartphone photo collection for expanded domain adaptation.
 - **Questions & Answers:**
   - Open for faculty questions.

@@ -1119,7 +1119,7 @@
         </div>
 
         <div class="rules-card">
-          <strong>Annotation &amp; Perception Rules:</strong> Each image is categorized strictly by its primary visible garment. If an upper tunic garment lacks lower bottoms, it is classified as <strong>Kurta</strong>. Sleeveless waistcoats with mandarin band collars are classified as <strong>Nehru Jacket</strong>. Full-length structured ceremonial tunics with front button plackets and heavier brocade fabrics are categorized as <strong>Sherwani</strong>.
+          <strong>Annotation &amp; Perception Rules:</strong> Each image is categorized strictly by its primary visible garment. If an upper tunic garment lacks lower bottoms, it is classified as <strong>Kurta</strong>. Sleeveless traditional waistcoats with mandarin band collars are classified as <strong>Waistcoat</strong> (cataloged as <em>nehru_jackets</em> in IndoFashion). Full-length structured ceremonial tunics with front button plackets and heavier brocade fabrics are categorized as <strong>Sherwani</strong>.
         </div>
       </div>
     </section>
@@ -1146,7 +1146,7 @@
             <tbody>
               <tr>
                 <td><strong>IndoFashion</strong></td>
-                <td>Kurta, Lehenga, Nehru Jacket, Saree, Sherwani</td>
+                <td>Kurta, Lehenga, Waistcoat (cataloged as nehru_jackets), Saree, Sherwani</td>
                 <td class="num">1,300 (260 / class)</td>
                 <td>Rajput &amp; Aneja, <em>CVPR Workshops 2021</em> (Academic Research Use)</td>
               </tr>
@@ -1197,7 +1197,7 @@
           <div class="stat-card">
             <span class="stat-label">Ethnic Class Accuracy</span>
             <span class="stat-value ethnic-stat" id="statEthnic">82.6%</span>
-            <span class="stat-sub">Lehenga: 100% · Nehru Jkt: 94.9%</span>
+            <span class="stat-sub">Lehenga: 100% · Waistcoat: 94.9%</span>
           </div>
         </div>
 
@@ -1289,14 +1289,14 @@
       'Jeans - Trousers',
       'Kurta',
       'Lehenga',
-      'Nehru Jacket',
+      'Waistcoat',
       'Saree',
       'Sherwani',
       'Shirt',
       'T-shirt'
     ];
 
-    const ETHNIC = new Set(['Kurta', 'Lehenga', 'Nehru Jacket', 'Saree', 'Sherwani']);
+    const ETHNIC = new Set(['Kurta', 'Lehenga', 'Waistcoat', 'Saree', 'Sherwani']);
     const WESTERN = new Set(['Dress', 'Jacket - Blazer', 'Jeans - Trousers', 'Shirt', 'T-shirt']);
 
     // Exact empirical results from reports/metrics.json
@@ -1322,7 +1322,7 @@
           'Jeans - Trousers': { precision: 1.0000, recall: 1.0000, f1: 1.0000, support: 39, category: 'Western' },
           'Kurta': { precision: 0.8333, recall: 0.6410, f1: 0.7246, support: 39, category: 'Ethnic' },
           'Lehenga': { precision: 0.7647, recall: 1.0000, f1: 0.8667, support: 39, category: 'Ethnic' },
-          'Nehru Jacket': { precision: 0.8810, recall: 0.9487, f1: 0.9136, support: 39, category: 'Ethnic' },
+          'Waistcoat': { precision: 0.8810, recall: 0.9487, f1: 0.9136, support: 39, category: 'Ethnic' },
           'Saree': { precision: 0.9630, recall: 0.6667, f1: 0.7879, support: 39, category: 'Ethnic' },
           'Sherwani': { precision: 0.7556, recall: 0.8718, f1: 0.8095, support: 39, category: 'Ethnic' },
           'Shirt': { precision: 0.8182, recall: 0.9231, f1: 0.8675, support: 39, category: 'Western' },
@@ -1350,7 +1350,7 @@
       'Jeans - Trousers': '<path d="M18 6h28l4 52H36l-4-36-4 36H14Z"/><path d="M18 12h28M24 12c0 4-2 6-5 6M40 12c0 4 2 6 5 6"/>',
       'Kurta': '<path d="M26 6 14 10 8 36l6 2 4-18v40h28V20l4 18 6-2-6-26-12-4c-2 3-10 3-12 0Z"/><path d="M32 8v16M18 50v10M46 50v10"/>',
       'Lehenga': '<path d="M24 6h16l1 10H23Z"/><path d="M24 20h16l18 38c-17 5-35 5-52 0Z"/><path d="M10 51c15 5 29 5 44 0"/>',
-      'Nehru Jacket': '<path d="M24 6h16l4 14v38H20V20Z"/><path d="M28 6v4h8V6"/><path d="M32 10v48"/><circle cx="34" cy="18" r="1.2" fill="currentColor"/><circle cx="34" cy="26" r="1.2" fill="currentColor"/><circle cx="34" cy="34" r="1.2" fill="currentColor"/><circle cx="34" cy="42" r="1.2" fill="currentColor"/><path d="M24 22h6"/>',
+      'Waistcoat': '<path d="M24 6h16l4 14v38H20V20Z"/><path d="M28 6v4h8V6"/><path d="M32 10v48"/><circle cx="34" cy="18" r="1.2" fill="currentColor"/><circle cx="34" cy="26" r="1.2" fill="currentColor"/><circle cx="34" cy="34" r="1.2" fill="currentColor"/><circle cx="34" cy="42" r="1.2" fill="currentColor"/><path d="M24 22h6"/>',
       'Saree': '<path d="M24 8h16l2 10H22Z"/><path d="M22 18 16 60h32l-6-42"/><path d="M40 8l12 6-6 26M24 18l20 12M28 40l-2 20M32 40v20M36 40l2 20"/>',
       'Sherwani': '<path d="m26 4-10 4-6 32 6 1 3-21v40h26V20l3 21 6-1-6-32-10-4-6 2Z"/><path d="M28 4v4h8V4M32 8v52"/><circle cx="34.5" cy="14" r="1.1" fill="currentColor"/><circle cx="34.5" cy="21" r="1.1" fill="currentColor"/><circle cx="34.5" cy="28" r="1.1" fill="currentColor"/><circle cx="34.5" cy="35" r="1.1" fill="currentColor"/>',
       'Shirt': '<path d="M24 8 14 12 8 40l6 2 4-18v26h28V24l4 18 6-2-6-28-10-4-8 8Z"/><path d="m24 8 4 10 4-2 4 2 4-10"/><circle cx="32" cy="26" r="1.2" fill="currentColor"/><circle cx="32" cy="34" r="1.2" fill="currentColor"/><circle cx="32" cy="42" r="1.2" fill="currentColor"/>',
@@ -1364,7 +1364,7 @@
     const SAMPLES = [
       { name: 'Kurta', file: 'samples/kurta.jpg' },
       { name: 'Lehenga', file: 'samples/lehenga.jpg' },
-      { name: 'Nehru Jacket', file: 'samples/nehru_jacket.jpg' },
+      { name: 'Waistcoat', file: 'samples/waistcoat.jpg' },
       { name: 'Saree', file: 'samples/saree.jpg' },
       { name: 'Sherwani', file: 'samples/sherwani.jpg' },
       { name: 'T-shirt', file: 'samples/tshirt.jpg' },
@@ -1412,7 +1412,7 @@
           <span>${name}</span>
         </div>`;
 
-      $('ethnicGarmentsGrid').innerHTML = ['Kurta', 'Lehenga', 'Nehru Jacket', 'Saree', 'Sherwani'].map(n => makeTile(n, 'ethnic')).join('');
+      $('ethnicGarmentsGrid').innerHTML = ['Kurta', 'Lehenga', 'Waistcoat', 'Saree', 'Sherwani'].map(n => makeTile(n, 'ethnic')).join('');
       $('westernGarmentsGrid').innerHTML = ['Dress', 'Jacket - Blazer', 'Jeans - Trousers', 'Shirt', 'T-shirt'].map(n => makeTile(n, 'western')).join('');
     }
 
@@ -1441,7 +1441,7 @@
       $('perClassBody').innerHTML = rows;
 
       // Confusion Matrix Table
-      const shortNames = ['Dress', 'Jacket', 'Jeans', 'Kurta', 'Lehng', 'Nehru', 'Saree', 'Sherw', 'Shirt', 'T-shirt'];
+      const shortNames = ['Dress', 'Jacket', 'Jeans', 'Kurta', 'Lehng', 'Waist', 'Saree', 'Sherw', 'Shirt', 'T-shirt'];
       let matrixHtml = `<thead><tr><th>Actual \\ Pred</th>${shortNames.map(s => `<th>${s}</th>`).join('')}</tr></thead><tbody>`;
 
       ft.confusion_matrix.forEach((row, i) => {
@@ -1592,7 +1592,7 @@
       let matchIdx = 0;
       if (filename.includes('kurta')) matchIdx = 3;
       else if (filename.includes('lehenga')) matchIdx = 4;
-      else if (filename.includes('nehru')) matchIdx = 5;
+      else if (filename.includes('waist') || filename.includes('nehru')) matchIdx = 5;
       else if (filename.includes('saree')) matchIdx = 6;
       else if (filename.includes('sherwani')) matchIdx = 7;
       else if (filename.includes('tshirt')) matchIdx = 9;

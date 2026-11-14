@@ -45,11 +45,11 @@ However, floating-point rounding mismatches or inconsistent image decoding betwe
 
 ---
 
-### Question 5: Why did you substitute Shalwar Kameez with Nehru Jacket, and does this compromise your project objectives?
+### Question 5: Why did you substitute Shalwar Kameez with Waistcoat, and does this compromise your project objectives?
 **Answer:**  
 In our original proposal, we planned to include *Shalwar Kameez* using the Roboflow Universe "Pakistani Clothes" dataset. However, upon programmatic inspection and bounding-box verification, we found only 93 unique base images depicting complete two-piece suits. Training with only 93 images while other classes had 260 would have created severe class imbalance ($>2.5\times$ disparity) or caused massive overfitting under heavy oversampling.
 
-Our approved proposal established a concrete contingency rule: if Shalwar Kameez yielded under 150 usable images, substitute it with *Nehru Jacket* from IndoFashion (`nehru_jackets`). Nehru Jacket is an authentic, ubiquitous Pakistani and South Asian formal ethnic waistcoat. This allowed us to preserve an exact 260-image cap across all 10 classes (a 1.0x balanced ratio), adhering strictly to empirical rigor while documenting the change transparently.
+Our approved proposal established a concrete contingency rule: if Shalwar Kameez yielded under 150 usable images, substitute it with the ethnic waistcoat category from IndoFashion (`nehru_jackets`). In Pakistani fashion and retail, this sleeveless formal mandarin-collar vest is universally known and sold as a **Waistcoat** (or *waskat*). This allowed us to preserve an exact 260-image cap across all 10 classes (a 1.0x balanced ratio), adhering strictly to empirical rigor while documenting the change transparently.
 
 ---
 
@@ -136,6 +136,6 @@ The web application inspects the top-1 softmax probability output:
 
 ### Question 15: What are the primary limitations of Libaas Lens, and what would you implement next?
 **Answer:**  
-1. **Single-Garment Assumption:** Libaas Lens currently assumes one primary garment per image. Real-world outfits are multi-layered (e.g., a Nehru Jacket worn over a Kurta). Our next step would be incorporating an object detection head (e.g., YOLOv8-Nano) to predict bounding boxes and simultaneous multi-garment labels.
+1. **Single-Garment Assumption:** Libaas Lens currently assumes one primary garment per image. Real-world outfits are multi-layered (e.g., a Waistcoat worn over a Kurta). Our next step would be incorporating an object detection head (e.g., YOLOv8-Nano) to predict bounding boxes and simultaneous multi-garment labels.
 2. **Catalog Domain Shift:** Our training data comes from clean e-commerce catalogs with white or neutral backgrounds. Performance on crumpled clothes lying on a bed or captured under harsh shadows requires domain adaptation via contrastive learning (SimCLR/MoCo) on in-the-wild smartphone photos.
 3. **Resolution Bottleneck:** Elevating input resolution to $384 \times 384$ using an architecture like EfficientNetV2-S would allow the network to resolve micro-embroidery stitches that disambiguate Kurtas from Sherwanis.
