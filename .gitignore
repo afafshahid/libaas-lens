@@ -5,10 +5,14 @@ __pycache__/
 .venv/
 venv/
 
-# Raw data and large training files (keep out of git)
+# Raw and processed datasets (keep out of git)
 data/
+libaas/
+
+# Native Keras model checkpoints and SavedModels
 *.h5
 *.keras
+models/
 
 # OS / editor
 .DS_Store
