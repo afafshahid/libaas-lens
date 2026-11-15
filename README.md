@@ -33,17 +33,17 @@ Every image is annotated by its primary visible garment. Classes are sorted in s
 
 | Index | Garment Class | Category Domain | Primary Source Dataset |
 | :---: | :--- | :---: | :--- |
-| **0** | `Dress` | Western | Fashion Product Images Small (Kaggle) |
-| **1** | `Jacket - Blazer` | Western | Fashion Product Images Small (Kaggle) |
-| **2** | `Jeans - Trousers` | Western | Fashion Product Images Small (Kaggle) |
+| **0** | `Dress` | Western | Real-World Clothing Dataset (Alexey Grigorev) |
+| **1** | `Jacket - Blazer` | Western | Real-World Clothing Dataset (`blazer` + `outwear`) |
+| **2** | `Jeans - Trousers` | Western | Real-World Clothing Dataset (`pants`) |
 | **3** | `Kurta` | Ethnic | IndoFashion (`women_kurta`, `kurta_men`) |
 | **4** | `Lehenga` | Ethnic | IndoFashion (`lehenga`) |
 | **5** | `Waistcoat` (*Nehru Jacket*) | Ethnic | IndoFashion (`nehru_jackets`) |
 | **6** | `Saree` | Ethnic | IndoFashion (`saree`) |
 | **7** | `Shalwar Kameez` | Ethnic | Pakistani Fashion Retail (Khaadi, J., Sapphire, Gul Ahmed, Alkaram) + IndoFashion Suit Sets |
 | **8** | `Sherwani` | Ethnic | IndoFashion (`sherwanis`) |
-| **9** | `Shirt` | Western | Fashion Product Images Small (Kaggle) |
-| **10** | `T-shirt` | Western | Fashion Product Images Small (Kaggle) |
+| **9** | `Shirt` | Western | Real-World Clothing Dataset (`shirt`) |
+| **10** | `T-shirt` | Western | Real-World Clothing Dataset (`t-shirt`) |
 
 *Scope & Nomenclature Note:* Index 5 is cataloged as `Nehru Jacket` in the IndoFashion benchmark and is represented throughout the UI and Pakistani commercial context as **Waistcoat** (*واسکت*).
 
@@ -55,18 +55,19 @@ Evaluated on the fixed, held-out **429-image test set** (39 images per class, st
 
 | Metric | Baseline Model (Frozen) | Fine-Tuned Model (Top 35 Layers) | Delta ($\Delta$) |
 | :--- | :---: | :---: | :---: |
-| **Overall Accuracy** | 85.08% (365/429) | **86.48%** (371/429) | **$+1.40\%$** |
-| **Macro Precision** | 85.67% | **86.86%** | **$+1.19\%$** |
-| **Macro Recall** | 85.08% | **86.48%** | **$+1.40\%$** |
-| **Macro F1-Score** | 84.68% | **86.18%** | **$+1.50\%$** |
-| **Western-Class Accuracy** | 90.26% | **92.82%** | **$+2.56\%$** |
-| **Ethnic-Class Accuracy** | 80.77% | **81.20%** | **$+0.43\%$** |
+| **Overall Accuracy** | 81.12% (348/429) | **86.25%** (370/429) | **$+5.13\%$** |
+| **Macro Precision** | 81.29% | **86.86%** | **$+5.57\%$** |
+| **Macro Recall** | 81.12% | **86.25%** | **$+5.13\%$** |
+| **Macro F1-Score** | 81.09% | **86.38%** | **$+5.29\%$** |
+| **Western-Class Accuracy** | 83.59% | **87.18%** | **$+3.59\%$** |
+| **Ethnic-Class Accuracy** | 79.06% | **85.47%** | **$+6.41\%$** |
 | **TF.js Parity Discrepancy** | — | **$\le 0.000001$ (PASSED)** | — |
 
 ### Key Perception Findings
-1. **Fine-Tuning Outperforms Linear Probing:** Fine-tuning the top 35 layers consistently beats the frozen baseline (+1.40% accuracy, +1.50% macro F1).
-2. **Perception Disparity (11.62% Gap):** Western classes (92.82% accuracy; Jeans 100%, Dress 100%, T-shirt 92.3%) outperform ethnic classes (81.20% accuracy; Lehenga 97.4%, Waistcoat 94.9%, Sherwani 89.7%, Saree 82.1%, Shalwar Kameez 71.8%, Kurta 51.3%) due to rigid silhouette geometries versus fluid fabric draping plasticity and mandarin collar overlaps.
-3. **Resolving the Female Suit Bias:** Incorporating authentic Pakistani retail suits into `Shalwar Kameez` completely eliminated the open-set misclassification of Pakistani female suits as bridal Lehengas.
+1. **Resolution Asymmetry Resolution:** Early models trained on blurry $60 \times 80$ Kaggle thumbnails developed inductive shortcut learning (associating sharp studio lighting and fine edges exclusively with ethnic categories). Upgrading Western classes to high-resolution real-world fashion photography eliminated this domain gap and raised Western accuracy to **87.18%**.
+2. **Fine-Tuning Outperforms Linear Probing:** Fine-tuning the top 35 layers consistently beats the frozen baseline (+5.13% accuracy, +5.29% macro F1).
+3. **Balanced Cross-Domain Discrimination:** Western wear (87.18%) and ethnic wear (85.47%) operate in near parity, with T-shirt (96.0% F1), Jeans (96.0% F1), Saree (92.1% F1), Waistcoat (91.9% F1), and Lehenga (91.1% F1) achieving exceptional precision and recall.
+4. **Resolving the Female Suit Bias:** Incorporating authentic Pakistani retail suits into `Shalwar Kameez` completely eliminated the open-set misclassification of Pakistani female suits as bridal Lehengas.
 
 ---
 

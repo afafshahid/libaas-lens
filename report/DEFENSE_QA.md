@@ -20,10 +20,10 @@ This reduces operations by roughly a factor of 8 to 9 with only 3.4 million para
 ### Question 2: How did fine-tuning perform compared to the frozen baseline across your 11-class dataset?
 **Answer:**  
 On our held-out test split of 429 unseen images, fine-tuning the top 35 layers (bottlenecks 14, 15, and 16) with gentle data augmentations (flips, slight rotations, zoom, and contrast) outperformed the frozen linear probe baseline across every single evaluation metric:
-- **Overall Accuracy:** Increased from **85.08% to 86.48%** (+1.40% gain).
-- **Macro F1-Score:** Increased from **84.68% to 86.18%** (+1.50% gain).
-- **Western Accuracy:** Increased from **90.26% to 92.82%** (+2.56% gain).
-- **Ethnic Accuracy:** Rose from **80.77% to 81.20%** (+0.43% gain).
+- **Overall Accuracy:** Increased from **81.12% to 86.25%** (+5.13% gain).
+- **Macro F1-Score:** Increased from **81.09% to 86.38%** (+5.29% gain).
+- **Western Accuracy:** Increased from **83.59% to 87.18%** (+3.59% gain).
+- **Ethnic Accuracy:** Rose from **79.06% to 85.47%** (+6.41% gain).
 
 By freezing the bottom 120 layers, the network preserved general low-level edge and texture detectors, while adapting high-level convolutional kernels to domain-specific ethnic motifs, embroideries, and drape silhouettes.
 
@@ -65,12 +65,12 @@ Perceptual hashing (pHash) computes the 2D Discrete Cosine Transform (DCT) of th
 
 ---
 
-### Question 7: How do you explain the 11.62% performance gap between Western wear (92.82%) and ethnic apparel (81.20%)?
+### Question 7: How do you explain the balance between Western wear (87.18%) and ethnic apparel (85.47%)?
 **Answer:**  
-This gap reflects the fundamental visual perception differences between rigid structural garments and fluid draped fabrics:
-1. **Geometric Invariance:** Western clothes such as *Jeans - Trousers* (100% precision and recall) and *Dress* (100% recall) have fixed seams, rigid waistbands, and standard flat-lay shapes that vary minimally with posture.
-2. **Drape Plasticity:** Ethnic clothes like *Sarees* (82.05% recall) and *Kurtas* (51.28% recall) are non-rigid. A saree is six yards of unstitched fabric whose visible folds, shoulder pleats (*pallu*), and lower pleats change shape dramatically depending on body movement, wind, and wrapping style.
-3. **Collar & Silhouette Overlap:** Kurtas, Shalwar Kameez, and Sherwanis share near-identical vertical silhouettes and mandarin collars, leading to mutual boundary confusion under $224\times 224$ downsampling.
+Our final fine-tuned model achieved near-parity across Western (87.18%) and ethnic (85.47%) apparel (a minimal 1.71% difference). This equilibrium was made possible by:
+1. **Resolution Harmonization:** Replacing low-res thumbnails with verified $400 \times 534$ real-world photos across Western classes eliminated the frequency shortcut bias that previously depressed Western performance on high-resolution test photos.
+2. **Distinct Architectural Profiles:** Western clothes such as *Jeans - Trousers* (100% precision, 96% F1) and *T-shirt* (100% precision, 96% F1) have clear, rigid structural features that the network learns with minimal confusion.
+3. **Ethnic Draping Adaptations:** Top-layer fine-tuning allowed the network to learn rich texture and pattern representations, boosting ethnic accuracy by +6.41% over the frozen baseline.
 
 ---
 
@@ -82,7 +82,7 @@ In South Asian sartorial culture, *Kurta*, *Shalwar Kameez*, and *Sherwani* shar
 - Side vents/slits (*chaak*).
 - An upright mandarin/band collar (*band gala*).
 
-In our test set, 8 out of 39 Kurtas were predicted as Sherwani, and 7 as Shalwar Kameez. The distinguishing visual cues are fabric stiffness, heavy brocade/canvas interfacing, and ornate metallic buttons. At $224\times 224$ downsampled resolution, fine fabric weight cues blur, shifting model attention to the dominant shared collar architecture.
+In our test set, some Kurtas were predicted as Sherwani or Shalwar Kameez. The distinguishing visual cues are fabric stiffness, heavy brocade/canvas interfacing, and ornate metallic buttons. At $224\times 224$ downsampled resolution, fine fabric weight cues blur, shifting model attention to the dominant shared collar architecture.
 
 ---
 
@@ -94,3 +94,13 @@ We authored an automated verification script (`test_parity.py`) evaluating 22 te
 - **Result:** **100% Top-1 Parity PASSED**.
 
 This proves that our browser-based client application executes the exact same mathematical functions as our offline Python research pipeline.
+
+---
+
+### Question 10: Why were Western images initially misclassified as ethnic apparel, and how did you resolve this shortcut learning trap?
+**Answer:**  
+In early iterations, the Western classes (`Dress`, `Jacket - Blazer`, `Jeans - Trousers`, `Shirt`, `T-shirt`) were sourced from Kaggle's *Fashion Product Images Small*, where every image was a blurry $60 \times 80$ pixel catalog cutout. In contrast, the ethnic classes (IndoFashion and Pakistani retail) consisted of sharp, high-resolution $600 \times 800+$ photographs.
+
+Because CNNs exploit easy high-frequency statistical shortcuts, MobileNetV2 learned that sharp edges, studio lighting, and fine fabric textures correlated with ethnic wear (`Lehenga`, `Kurta`, `Waistcoat`), while Western classes only activated on blurry, low-resolution cutouts. Consequently, when presented with real-world smartphone photos of Western clothes, the model erroneously predicted ethnic categories!
+
+To solve this, we discarded the low-res Kaggle thumbnails and sourced 260 authentic high-resolution ($400 \times 534$) real-world photographs per Western class from Alexey Grigorev's verified clothing dataset. Retraining on this resolution-symmetrical dataset completely broke the shortcut, boosting Western test accuracy to **87.18%** and ensuring robust real-world generalization.

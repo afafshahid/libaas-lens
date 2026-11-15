@@ -1625,23 +1625,23 @@
         <div class="metrics-summary-grid">
           <div class="metric-stat-card">
             <span class="stat-label">Overall Accuracy</span>
-            <span class="stat-value" style="color: var(--indigo);">86.48%</span>
-            <span class="stat-caption">371 / 429 test images correctly recognized</span>
+            <span class="stat-value" style="color: var(--indigo);">86.25%</span>
+            <span class="stat-caption">370 / 429 test images correctly recognized</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Macro F1-Score</span>
-            <span class="stat-value" style="color: var(--emerald);">86.18%</span>
+            <span class="stat-value" style="color: var(--emerald);">86.38%</span>
             <span class="stat-caption">Harmonic mean of precision &amp; recall</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Western Accuracy</span>
-            <span class="stat-value" style="color: var(--indigo);">92.82%</span>
-            <span class="stat-caption">181 / 195 correct (Jeans 100%, Dress 100%)</span>
+            <span class="stat-value" style="color: var(--indigo);">87.18%</span>
+            <span class="stat-caption">170 / 195 correct (Jeans 92%, T-shirt 92%, Dress 90%)</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Ethnic Accuracy</span>
-            <span class="stat-value" style="color: var(--amber);">81.20%</span>
-            <span class="stat-caption">190 / 234 correct (Lehenga 97%, Waistcoat 95%)</span>
+            <span class="stat-value" style="color: var(--amber);">85.47%</span>
+            <span class="stat-caption">200 / 234 correct (Lehenga 92%, Sherwani 92%, Saree 90%)</span>
           </div>
         </div>
 
@@ -1850,35 +1850,35 @@
 
     // Exact empirical results from reports/metrics.json
     const METRICS_DATA = {
-      accuracy: 0.8648,
-      macro_f1: 0.8618,
-      western_accuracy: 0.9282,
-      ethnic_accuracy: 0.8120,
+      accuracy: 0.8625,
+      macro_f1: 0.8638,
+      western_accuracy: 0.8718,
+      ethnic_accuracy: 0.8547,
       per_class: {
-        'Dress': { precision: 0.9286, recall: 1.0000, f1: 0.9630, support: 39, category: 'Western' },
-        'Jacket - Blazer': { precision: 0.9444, recall: 0.8718, f1: 0.9067, support: 39, category: 'Western' },
-        'Jeans - Trousers': { precision: 1.0000, recall: 1.0000, f1: 1.0000, support: 39, category: 'Western' },
-        'Kurta': { precision: 0.6452, recall: 0.5128, f1: 0.5714, support: 39, category: 'Ethnic' },
-        'Lehenga': { precision: 0.8444, recall: 0.9744, f1: 0.9048, support: 39, category: 'Ethnic' },
-        'Waistcoat': { precision: 0.9250, recall: 0.9487, f1: 0.9367, support: 39, category: 'Ethnic' },
-        'Saree': { precision: 0.9412, recall: 0.8205, f1: 0.8767, support: 39, category: 'Ethnic' },
-        'Shalwar Kameez': { precision: 0.7179, recall: 0.7179, f1: 0.7179, support: 39, category: 'Ethnic' },
-        'Sherwani': { precision: 0.7778, recall: 0.8974, f1: 0.8333, support: 39, category: 'Ethnic' },
-        'Shirt': { precision: 0.8462, recall: 0.8462, f1: 0.8462, support: 39, category: 'Western' },
-        'T-shirt': { precision: 0.9231, recall: 0.9231, f1: 0.9231, support: 39, category: 'Western' }
+        'Dress': { precision: 0.7447, recall: 0.8974, f1: 0.8140, support: 39, category: 'Western' },
+        'Jacket - Blazer': { precision: 0.8108, recall: 0.7692, f1: 0.7895, support: 39, category: 'Western' },
+        'Jeans - Trousers': { precision: 1.0000, recall: 0.9231, f1: 0.9600, support: 39, category: 'Western' },
+        'Kurta': { precision: 0.7436, recall: 0.7436, f1: 0.7436, support: 39, category: 'Ethnic' },
+        'Lehenga': { precision: 0.9000, recall: 0.9231, f1: 0.9114, support: 39, category: 'Ethnic' },
+        'Waistcoat': { precision: 0.9714, recall: 0.8718, f1: 0.9189, support: 39, category: 'Ethnic' },
+        'Saree': { precision: 0.9459, recall: 0.8974, f1: 0.9211, support: 39, category: 'Ethnic' },
+        'Shalwar Kameez': { precision: 0.8333, recall: 0.7692, f1: 0.8000, support: 39, category: 'Ethnic' },
+        'Sherwani': { precision: 0.8372, recall: 0.9231, f1: 0.8780, support: 39, category: 'Ethnic' },
+        'Shirt': { precision: 0.7674, recall: 0.8462, f1: 0.8049, support: 39, category: 'Western' },
+        'T-shirt': { precision: 1.0000, recall: 0.9231, f1: 0.9600, support: 39, category: 'Western' }
       },
       confusion_matrix: [
-        [39,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 1, 34,  0,  0,  0,  0,  0,  0,  0,  4,  0],
-        [ 0,  0, 39,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0, 20,  0,  3,  1,  7,  8,  0,  0],
-        [ 0,  0,  0,  0, 38,  0,  0,  1,  0,  0,  0],
-        [ 0,  0,  0,  1,  0, 37,  0,  0,  1,  0,  0],
-        [ 0,  0,  0,  1,  5,  0, 32,  1,  0,  0,  0],
-        [ 0,  0,  0,  7,  2,  0,  1, 28,  1,  0,  0],
-        [ 0,  0,  0,  2,  0,  0,  0,  2, 35,  0,  0],
-        [ 1,  2,  0,  0,  0,  0,  0,  0,  0, 33,  3],
-        [ 1,  0,  0,  0,  0,  0,  0,  0,  0,  2, 36]
+        [35,  0,  0,  0,  0,  0,  0,  0,  0,  4,  0],
+        [ 3, 30,  0,  0,  0,  0,  0,  0,  0,  6,  0],
+        [ 1,  2, 36,  0,  0,  0,  0,  0,  0,  0,  0],
+        [ 0,  0,  0, 29,  1,  1,  0,  3,  5,  0,  0],
+        [ 2,  0,  0,  0, 36,  0,  0,  1,  0,  0,  0],
+        [ 0,  1,  0,  2,  0, 34,  0,  0,  2,  0,  0],
+        [ 0,  0,  0,  1,  2,  0, 35,  1,  0,  0,  0],
+        [ 0,  0,  0,  7,  1,  0,  1, 30,  0,  0,  0],
+        [ 1,  0,  0,  0,  0,  0,  1,  1, 36,  0,  0],
+        [ 2,  4,  0,  0,  0,  0,  0,  0,  0, 33,  0],
+        [ 3,  0,  0,  0,  0,  0,  0,  0,  0,  0, 36]
       ]
     };
 

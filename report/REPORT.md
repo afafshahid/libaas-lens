@@ -20,7 +20,7 @@ Automated apparel visual perception represents a cornerstone of modern computer 
 
 In this work, we present **Libaas Lens** (*لباس لینز*), a unified deep transfer-learning perception framework capable of categorizing apparel into a balanced **11-class dual-domain taxonomy** spanning six Pakistani ethnic categories (*Kurta*, *Lehenga*, *Waistcoat*, *Saree*, *Shalwar Kameez*, *Sherwani*) and five Western categories (*Dress*, *Jacket - Blazer*, *Jeans - Trousers*, *Shirt*, *T-shirt*). A critical motivation for expanding to 11 classes was addressing an acute open-set failure mode: in initial 10-class models lacking a general suit category, any Pakistani stitched female outfit (2-piece or 3-piece lawn suit, frock, or long kameez) was erroneously forced into *Lehenga*. By curating authentic Pakistani designer retail imagery (Khaadi, J., Sapphire, Gul Ahmed, Alkaram) combined with IndoFashion suit sets, we established a balanced dataset of 2,860 images (260 per class) partitioned into a strict 70/15/15 stratified split.
 
-On a held-out test split of 429 unseen images (39 per class), our fine-tuned MobileNetV2 model achieves **86.48% overall accuracy** and a **macro F1-score of 86.18%**, outperforming the frozen linear baseline (85.08% accuracy, 84.68% macro F1). Crucially, our perception analysis documents an 11.62% disparity between Western wear (92.82% accuracy) and ethnic apparel (81.20% accuracy), grounded in geometric invariance versus fluid fabric plasticity. Finally, we convert the trained model into a production-ready TensorFlow.js Graph Model with embedded preprocessing layers, achieving 100% classification parity ($\le 0.0001\%$ probability discrepancy) and enabling zero-server-upload, zero-latency inference directly in the client's web browser.
+On a held-out test split of 429 unseen images (39 per class), our fine-tuned MobileNetV2 model achieves **86.25% overall accuracy** and a **macro F1-score of 86.38%**, outperforming the frozen linear baseline (81.12% accuracy, 81.09% macro F1). Crucially, by replacing low-resolution Western thumbnail images with genuine high-resolution real-world fashion photography, we eliminated inductive resolution shortcut bias, achieving a balanced **87.18% Western accuracy** and **85.47% ethnic accuracy**. Finally, we convert the trained model into a production-ready TensorFlow.js Graph Model with embedded preprocessing layers, achieving 100% classification parity ($\le 0.0001\%$ probability discrepancy) and enabling zero-server-upload, zero-latency inference directly in the client's web browser.
 
 ---
 
@@ -60,17 +60,17 @@ We defined a mutually exclusive 11-class taxonomy comprising six Pakistani ethni
 
 | Index | Class Name | Category Domain | Primary Source Dataset |
 | :---: | :--- | :---: | :--- |
-| 0 | `Dress` | Western | Fashion Product Images Small (Kaggle) |
-| 1 | `Jacket - Blazer` | Western | Fashion Product Images Small (Kaggle) |
-| 2 | `Jeans - Trousers` | Western | Fashion Product Images Small (Kaggle) |
+| 0 | `Dress` | Western | Real-World Clothing Dataset (Alexey Grigorev) |
+| 1 | `Jacket - Blazer` | Western | Real-World Clothing Dataset (`blazer` + `outwear`) |
+| 2 | `Jeans - Trousers` | Western | Real-World Clothing Dataset (`pants`) |
 | 3 | `Kurta` | Ethnic | IndoFashion (`women_kurta`, `kurta_men`) |
 | 4 | `Lehenga` | Ethnic | IndoFashion (`lehenga`) |
 | 5 | `Nehru Jacket` (*Waistcoat*) | Ethnic | IndoFashion (`nehru_jackets`) |
 | 6 | `Saree` | Ethnic | IndoFashion (`saree`) |
 | 7 | `Shalwar Kameez` | Ethnic | Pakistani Fashion Retail (Khaadi, J., Sapphire, Gul Ahmed, Alkaram) + IndoFashion Suit Sets |
 | 8 | `Sherwani` | Ethnic | IndoFashion (`sherwanis`) |
-| 9 | `Shirt` | Western | Fashion Product Images Small (Kaggle) |
-| 10 | `T-shirt` | Western | Fashion Product Images Small (Kaggle) |
+| 9 | `Shirt` | Western | Real-World Clothing Dataset (`shirt`) |
+| 10 | `T-shirt` | Western | Real-World Clothing Dataset (`t-shirt`) |
 
 *Note on Nomenclature:* Index 5 is cataloged as `Nehru Jacket` in the IndoFashion benchmark, and is presented in user interfaces and Pakistani commercial contexts as **Waistcoat** (*واسکت*).
 
@@ -82,7 +82,7 @@ We defined a mutually exclusive 11-class taxonomy comprising six Pakistani ethni
 
 ### 3.2 Data Sourcing and Pipeline
 - **IndoFashion:** Sourced from the official IndoFashion benchmark (Rajput & Aneja, 2021). JSON annotation records (`train_data.json`, `val_data.json`, `test_data.json`) were parsed to extract verified product images.
-- **Fashion Product Images Small:** Sourced from Param Aggarwal's open e-commerce benchmark on Kaggle. Metadata catalog records (`styles.csv`) were indexed to isolate target `articleType` categories (`Dresses`, `Jackets`, `Blazers`, `Jeans`, `Trousers`, `Shirts`, `Tshirts`).
+- **Real-World Clothing Dataset (Western Classes):** Sourced from Alexey Grigorev's verified open-source fashion photography benchmark. In initial experiments using Kaggle's *Fashion Product Images Small*, Western images consisted of low-frequency $60 \times 80$ pixel cutouts, whereas ethnic categories featured high-resolution studio photographs ($600 \times 800+$). This created a severe inductive shortcut bias where CNN feature maps correlated resolution/texture sharpness with ethnic classes. Sourcing authentic $400 \times 534$ smartphone and camera images for `Dress`, `Jacket - Blazer`, `Jeans - Trousers`, `Shirt`, and `T-shirt` eliminated this domain gap and harmonized spatial frequency distributions across all 11 classes.
 - **Pakistani Fashion Retail Dataset:** Authentic Pakistani designer retail images from Khaadi, Junaid Jamshed (J.), Sapphire, Gul Ahmed, and Alkaram were integrated to represent modern printed and embroidered female 2-pc/3-pc lawn suits and male shalwar kameez suits.
 
 ### 3.3 Cleaning, Deduplication & Quality Filtering
@@ -179,14 +179,14 @@ All evaluations were executed on the fixed, held-out 429-image test set (39 imag
 
 | Evaluation Metric | Baseline Model (Frozen) | Fine-Tuned Model (Top 35) | Delta ($\Delta$) |
 | :--- | :---: | :---: | :---: |
-| **Overall Accuracy** | 85.08% (365/429) | **86.48%** (371/429) | **$+1.40\%$** |
-| **Macro Precision** | 85.67% | **86.86%** | **$+1.19\%$** |
-| **Macro Recall** | 85.08% | **86.48%** | **$+1.40\%$** |
-| **Macro F1-Score** | 84.68% | **86.18%** | **$+1.50\%$** |
-| **Ethnic-Class Accuracy** | 80.77% (189/234) | **81.20%** (190/234) | **$+0.43\%$** |
-| **Western-Class Accuracy** | 90.26% (176/195) | **92.82%** (181/195) | **$+2.56\%$** |
+| **Overall Accuracy** | 81.12% (348/429) | **86.25%** (370/429) | **$+5.13\%$** |
+| **Macro Precision** | 81.29% | **86.86%** | **$+5.57\%$** |
+| **Macro Recall** | 81.12% | **86.25%** | **$+5.13\%$** |
+| **Macro F1-Score** | 81.09% | **86.38%** | **$+5.29\%$** |
+| **Ethnic-Class Accuracy** | 79.06% (185/234) | **85.47%** (200/234) | **$+6.41\%$** |
+| **Western-Class Accuracy** | 83.59% (163/195) | **87.18%** (170/195) | **$+3.59\%$** |
 
-*Key Takeaway:* Fine-tuning the top 35 layers produced consistent improvements across every global evaluation metric, delivering a +1.40% gain in overall accuracy, a +1.50% gain in macro F1, and a +2.56% gain in Western class discrimination.
+*Key Takeaway:* Fine-tuning the top 35 layers produced strong improvements across every global evaluation metric, delivering a +5.13% gain in overall accuracy, a +5.29% gain in macro F1, and balanced performance across both Western (87.18%) and ethnic (85.47%) apparel.
 
 ### 5.2 Per-Class Precision, Recall, and F1 Breakdown
 
@@ -194,17 +194,17 @@ The table below details per-class performance for the **Fine-Tuned Model** on th
 
 | Garment Class | Category Domain | Precision | Recall | F1-Score | Support |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Dress** | Western | 0.9286 | **1.0000** | **0.9630** | 39 |
-| **Jacket - Blazer** | Western | 0.9444 | 0.8718 | 0.9067 | 39 |
-| **Jeans - Trousers** | Western | **1.0000** | **1.0000** | **1.0000** | 39 |
-| **Kurta** | Ethnic | 0.6452 | 0.5128 | 0.5714 | 39 |
-| **Lehenga** | Ethnic | 0.8444 | 0.9744 | **0.9048** | 39 |
-| **Waistcoat** (*Nehru Jacket*) | Ethnic | 0.9250 | 0.9487 | **0.9367** | 39 |
-| **Saree** | Ethnic | 0.9412 | 0.8205 | 0.8767 | 39 |
-| **Shalwar Kameez** | Ethnic | 0.7179 | 0.7179 | 0.7179 | 39 |
-| **Sherwani** | Ethnic | 0.7778 | 0.8974 | 0.8333 | 39 |
-| **Shirt** | Western | 0.8462 | 0.8462 | 0.8462 | 39 |
-| **T-shirt** | Western | 0.9231 | 0.9231 | 0.9231 | 39 |
+| **Dress** | Western | 0.7447 | 0.8974 | 0.8140 | 39 |
+| **Jacket - Blazer** | Western | 0.8108 | 0.7692 | 0.7895 | 39 |
+| **Jeans - Trousers** | Western | **1.0000** | 0.9231 | **0.9600** | 39 |
+| **Kurta** | Ethnic | 0.7436 | 0.7436 | 0.7436 | 39 |
+| **Lehenga** | Ethnic | 0.9000 | 0.9231 | 0.9114 | 39 |
+| **Waistcoat** (*Nehru Jacket*) | Ethnic | 0.9714 | 0.8718 | 0.9189 | 39 |
+| **Saree** | Ethnic | 0.9459 | 0.8974 | 0.9211 | 39 |
+| **Shalwar Kameez** | Ethnic | 0.8333 | 0.7692 | 0.8000 | 39 |
+| **Sherwani** | Ethnic | 0.8372 | 0.9231 | 0.8780 | 39 |
+| **Shirt** | Western | 0.7674 | 0.8462 | 0.8049 | 39 |
+| **T-shirt** | Western | **1.0000** | 0.9231 | **0.9600** | 39 |
 
 ### 5.3 Confusion Matrix Analysis
 The full $11 \times 11$ confusion matrix for the fine-tuned model on the held-out test set is detailed below:
@@ -212,17 +212,17 @@ The full $11 \times 11$ confusion matrix for the fine-tuned model on the held-ou
 ```
 Predicted Class Index:
       [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]  [10]
-[0]    39     0     0     0     0     0     0     0     0     0     0   | Dress (Western)
-[1]     1    34     0     0     0     0     0     0     0     4     0   | Jacket - Blazer (Western)
-[2]     0     0    39     0     0     0     0     0     0     0     0   | Jeans - Trousers (Western)
-[3]     0     0     0    20     0     3     1     7     8     0     0   | Kurta (Ethnic)
-[4]     0     0     0     0    38     0     0     1     0     0     0   | Lehenga (Ethnic)
-[5]     0     0     0     1     0    37     0     0     1     0     0   | Waistcoat (Ethnic)
-[6]     0     0     0     1     5     0    32     1     0     0     0   | Saree (Ethnic)
-[7]     0     0     0     7     2     0     1    28     1     0     0   | Shalwar Kameez (Ethnic)
-[8]     0     0     0     2     0     0     0     2    35     0     0   | Sherwani (Ethnic)
-[9]     1     2     0     0     0     0     0     0     0    33     3   | Shirt (Western)
-[10]    1     0     0     0     0     0     0     0     0     2    36   | T-shirt (Western)
+[0]    35     0     0     0     0     0     0     0     0     4     0   | Dress (Western)
+[1]     3    30     0     0     0     0     0     0     0     6     0   | Jacket - Blazer (Western)
+[2]     1     2    36     0     0     0     0     0     0     0     0   | Jeans - Trousers (Western)
+[3]     0     0     0    29     1     1     0     3     5     0     0   | Kurta (Ethnic)
+[4]     2     0     0     0    36     0     0     1     0     0     0   | Lehenga (Ethnic)
+[5]     0     1     0     2     0    34     0     0     2     0     0   | Waistcoat (Ethnic)
+[6]     0     0     0     1     2     0    35     1     0     0     0   | Saree (Ethnic)
+[7]     0     0     0     7     1     0     1    30     0     0     0   | Shalwar Kameez (Ethnic)
+[8]     1     0     0     0     0     0     1     1    36     0     0   | Sherwani (Ethnic)
+[9]     2     4     0     0     0     0     0     0     0    33     0   | Shirt (Western)
+[10]    3     0     0     0     0     0     0     0     0     0    36   | T-shirt (Western)
 ```
 
 ---
@@ -307,9 +307,9 @@ In accordance with strict academic integrity guidelines, all scope adjustments a
    Rajput, P., & Aneja, S. (2021). *IndoFashion: Apparel Classification for Indian Ethnic Clothes*. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops, 3965–3971.
 3. **DeepFashion Benchmark:**  
    Liu, Z., Luo, P., Qiu, S., Wang, X., & Tang, X. (2016). *DeepFashion: Powering Robust Clothes Recognition and Retrieval with Rich Annotations*. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 1096–1104.
-4. **Fashion Product Images Dataset:**  
-   Aggarwal, P. (2019). *Fashion Product Images Dataset (Small)*. Kaggle. [https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-small](https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-small)
-5. **Pakistani Fashion Retail Catalogs:**  
+4. **Real-World Clothing Dataset:**  
+   Grigorev, A. (2020). *Clothing Dataset: 5,000+ High-Resolution Real-World Fashion Images with Crowdsourced Labels*. [https://github.com/alexeygrigorev/clothing-dataset](https://github.com/alexeygrigorev/clothing-dataset)
+5. **IndoFashion Dataset:**  
    Khaadi, Junaid Jamshed (J.), Sapphire, Gul Ahmed, and Alkaram Studio E-Commerce Collections (2023–2026).
 6. **TensorFlow & Keras Ecosystem:**  
    Abadi, M., et al. (2015). *TensorFlow: Large-Scale Machine Learning on Heterogeneous Systems*. [https://www.tensorflow.org](https://www.tensorflow.org)

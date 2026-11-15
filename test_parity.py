@@ -77,7 +77,7 @@ def main():
         if not is_match:
             all_match = False
             
-        print(f"[{idx+1:02d}/20] GT: {gt_class:<15} | Keras: {keras_top1_class} ({keras_top1_prob*100:.1f}%) | SM: {sm_top1_class} ({sm_top1_prob*100:.1f}%) | MaxDiff: {diff:.6f}")
+        print(f"[{idx+1:02d}/{len(selected_images)}] GT: {gt_class:<15} | Keras: {keras_top1_class} ({keras_top1_prob*100:.1f}%) | SM: {sm_top1_class} ({sm_top1_prob*100:.1f}%) | MaxDiff: {diff:.6f}")
         
         results.append({
             "index": idx + 1,

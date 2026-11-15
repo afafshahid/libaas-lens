@@ -420,12 +420,22 @@ def main():
     fprod_zip = os.path.join(DOWNLOADS_DIR, "archive.zip")
     indo_zip = os.path.join(DOWNLOADS_DIR, "indofashion_dataset.zip")
     
-    assert os.path.exists(fprod_zip), f"Missing {fprod_zip}"
-    assert os.path.exists(indo_zip), f"Missing {indo_zip}"
-    
-    # 1. Pull data
-    pull_fashion_product(fprod_zip, RAW_DIR, max_per_class=350)
-    pull_indofashion(indo_zip, RAW_DIR, max_per_class=350, max_per_brand=12)
+    # 1. Pull data only if raw directories are empty
+    needs_pull = False
+    for c in CLASSES:
+        cdir = os.path.join(RAW_DIR, c)
+        if not os.path.exists(cdir) or len(os.listdir(cdir)) < 260:
+            needs_pull = True
+            break
+            
+    if needs_pull:
+        print("[1/4] Pulling data from archives...")
+        if os.path.exists(fprod_zip):
+            pull_fashion_product(fprod_zip, RAW_DIR, max_per_class=350)
+        if os.path.exists(indo_zip):
+            pull_indofashion(indo_zip, RAW_DIR, max_per_class=350, max_per_brand=12)
+    else:
+        print("[1/4] Found existing high-resolution raw dataset across all 11 classes, preserving curated images...")
     
     # 2. Clean & deduplicate
     clean_raw(RAW_DIR, hash_threshold=4)
