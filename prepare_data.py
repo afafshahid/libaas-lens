@@ -36,7 +36,7 @@ RAW_DIR = os.path.join(ROOT, "raw")
 PROCESSED_DIR = os.path.join(ROOT, "processed")
 DOWNLOADS_DIR = r"C:\Users\Afaf Shahid\Downloads"
 
-# 10 target classes in alphabetical order
+# 11 target classes in alphabetical order
 CLASSES = [
     "Dress",
     "Jacket - Blazer",
@@ -45,6 +45,7 @@ CLASSES = [
     "Lehenga",
     "Nehru Jacket",
     "Saree",
+    "Shalwar Kameez",
     "Sherwani",
     "Shirt",
     "T-shirt",
@@ -334,7 +335,7 @@ def balance_and_split(raw_dir, processed_dir, cap=260, seed=42, ratio=(0.70, 0.1
                 
         summary_data.append({
             "class": cls,
-            "type": "Ethnic" if cls in ["Kurta", "Lehenga", "Nehru Jacket", "Saree", "Sherwani"] else "Western",
+            "type": "Ethnic" if cls in ["Kurta", "Lehenga", "Nehru Jacket", "Saree", "Shalwar Kameez", "Sherwani"] else "Western",
             "train": len(splits["train"]),
             "val": len(splits["val"]),
             "test": len(splits["test"]),

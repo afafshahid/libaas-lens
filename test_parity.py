@@ -13,6 +13,7 @@ CLASSES = [
     "Lehenga",
     "Nehru Jacket",
     "Saree",
+    "Shalwar Kameez",
     "Sherwani",
     "Shirt",
     "T-shirt"
@@ -23,7 +24,7 @@ REPORTS_DIR = "reports"
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 def main():
-    print("=== Libaas Lens: 20-Image Parity Verification ===")
+    print("=== Libaas Lens: 22-Image Parity Verification ===")
     
     # 1. Load models
     keras_model = keras.models.load_model("models/final_model.keras", compile=False)
@@ -39,7 +40,7 @@ def main():
             selected_images.append((cls, os.path.join(cls_dir, files[0])))
             selected_images.append((cls, os.path.join(cls_dir, files[1])))
             
-    print(f"Selected {len(selected_images)} test images across 10 classes.")
+    print(f"Selected {len(selected_images)} test images across {len(CLASSES)} classes.")
     
     results = []
     max_discrepancy = 0.0

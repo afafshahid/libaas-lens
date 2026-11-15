@@ -34,12 +34,13 @@ CLASSES = [
     "Lehenga",
     "Nehru Jacket",
     "Saree",
+    "Shalwar Kameez",
     "Sherwani",
     "Shirt",
     "T-shirt",
 ]
 
-ETHNIC_CLASSES = {"Kurta", "Lehenga", "Nehru Jacket", "Saree", "Sherwani"}
+ETHNIC_CLASSES = {"Kurta", "Lehenga", "Nehru Jacket", "Saree", "Shalwar Kameez", "Sherwani"}
 WESTERN_CLASSES = {"Dress", "Jacket - Blazer", "Jeans - Trousers", "Shirt", "T-shirt"}
 
 PROCESSED_DIR = "libaas/processed"

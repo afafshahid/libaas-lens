@@ -46,6 +46,7 @@ CLASSES = [
     "Lehenga",
     "Nehru Jacket",
     "Saree",
+    "Shalwar Kameez",
     "Sherwani",
     "Shirt",
     "T-shirt",

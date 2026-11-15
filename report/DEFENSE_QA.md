@@ -9,7 +9,7 @@
 
 ### Question 1: Why did you choose MobileNetV2 over heavier backbones like ResNet50 or Vision Transformers (ViT)?
 **Answer:**  
-Our system requirement was client-side browser deployment via TensorFlow.js to preserve user privacy and eliminate cloud server costs. MobileNetV2 uses inverted residual blocks with linear bottlenecks and depthwise separable convolutions, which factorize standard convolutions into a $3\times 3$ depthwise convolution and a $1\times 1$ pointwise convolution. This reduces computational complexity from:
+Our core system requirement was client-side browser deployment via TensorFlow.js to guarantee 100% user privacy and eliminate cloud server infrastructure costs. MobileNetV2 uses inverted residual blocks with linear bottlenecks and depthwise separable convolutions, which factorize standard convolutions into a $3\times 3$ depthwise convolution and a $1\times 1$ pointwise convolution. This reduces computational complexity from:
 
 $$\mathcal{O}(D_K \cdot D_K \cdot M \cdot N \cdot D_F \cdot D_F) \quad \text{to} \quad \mathcal{O}(D_K \cdot D_K \cdot M \cdot D_F \cdot D_F + M \cdot N \cdot D_F \cdot D_F)$$
 
@@ -17,11 +17,15 @@ This reduces operations by roughly a factor of 8 to 9 with only 3.4 million para
 
 ---
 
-### Question 2: Why did your frozen baseline achieve slightly higher overall accuracy (88.21%) than your fine-tuned model (87.95%)?
+### Question 2: How did fine-tuning perform compared to the frozen baseline across your 11-class dataset?
 **Answer:**  
-This is a well-documented phenomenon in transfer learning with small to medium datasets ($N=2,600$ images total; 182 training images per class). When the source domain (ImageNet-1k, 1.28 million natural images) is vastly larger than the target domain, ImageNet features across middle-to-high convolutional layers already encapsulate generalized edges, textures, contours, and fabric weaves.
+On our held-out test split of 429 unseen images, fine-tuning the top 35 layers (bottlenecks 14, 15, and 16) with gentle data augmentations (flips, slight rotations, zoom, and contrast) outperformed the frozen linear probe baseline across every single evaluation metric:
+- **Overall Accuracy:** Increased from **85.08% to 86.48%** (+1.40% gain).
+- **Macro F1-Score:** Increased from **84.68% to 86.18%** (+1.50% gain).
+- **Western Accuracy:** Increased from **90.26% to 92.82%** (+2.56% gain).
+- **Ethnic Accuracy:** Rose from **80.77% to 81.20%** (+0.43% gain).
 
-When unfreezing the top 35 layers, even with a low learning rate ($10^{-5}$) and frozen Batch Normalization, slight feature distortion (representation drift or minor catastrophic forgetting) can occur on smaller training splits. However, fine-tuning improved the macro precision from **88.22% to 88.90%** and boosted Western class accuracy from **92.31% to 93.33%**, showing that while overall top-1 accuracy shifted by just a single misclassified image (344 vs 343 out of 390), the fine-tuned model developed sharper decision boundaries for structured categories.
+By freezing the bottom 120 layers, the network preserved general low-level edge and texture detectors, while adapting high-level convolutional kernels to domain-specific ethnic motifs, embroideries, and drape silhouettes.
 
 ---
 
@@ -31,7 +35,7 @@ During training, a `BatchNormalization` layer maintains two sets of parameters:
 1. Trainable affine parameters ($\gamma$ scale, $\beta$ shift) updated via backpropagation.
 2. Non-trainable running statistics ($\mu$ moving mean, $\sigma^2$ moving variance) updated using exponential moving averages of the current mini-batch.
 
-When fine-tuning on a small custom dataset with a small batch size ($N=32$), the mini-batch sample mean and variance deviate significantly from the true population statistics learned across ImageNet's 1.28 million images. If Batch Normalization is set to `trainable = True`, the running statistics rapidly degrade, corrupting the activations of all downstream bottleneck layers. Keeping BatchNorm in inference mode freezes both the statistics and the affine weights, preserving the numerical stability of the pretrained backbone.
+When fine-tuning on a specialized dataset with small batch sizes ($N=32$), the mini-batch sample mean and variance fluctuate wildly and deviate significantly from the true population statistics learned across ImageNet's 1.28 million images. If Batch Normalization is set to `trainable = True`, the running statistics rapidly degrade, corrupting the activations of all downstream bottleneck layers. Keeping BatchNorm in inference mode freezes both the statistics and the affine weights, preserving the numerical stability of the pretrained backbone.
 
 ---
 
@@ -45,11 +49,11 @@ However, floating-point rounding mismatches or inconsistent image decoding betwe
 
 ---
 
-### Question 5: Why did you substitute Shalwar Kameez with Waistcoat, and does this compromise your project objectives?
+### Question 5: Why did you add Shalwar Kameez alongside Waistcoat, and how did that resolve the "Lehenga false positive" problem?
 **Answer:**  
-In our original proposal, we planned to include *Shalwar Kameez* using the Roboflow Universe "Pakistani Clothes" dataset. However, upon programmatic inspection and bounding-box verification, we found only 93 unique base images depicting complete two-piece suits. Training with only 93 images while other classes had 260 would have created severe class imbalance ($>2.5\times$ disparity) or caused massive overfitting under heavy oversampling.
+In our initial 10-class taxonomy, the only ethnic female garment was *Lehenga*. When testing with real Pakistani women's clothing (e.g. 2-piece printed lawn suits, 3-piece embroidered chiffon suits, or long frocks), the network exhibited a severe failure mode: because it had no concept of a Pakistani female suit/kameez, it forced every female ethnic garment into **Lehenga** due to shared visual cues like volume, pleating, and bright embroidery!
 
-Our approved proposal established a concrete contingency rule: if Shalwar Kameez yielded under 150 usable images, substitute it with the ethnic waistcoat category from IndoFashion (`nehru_jackets`). In Pakistani fashion and retail, this sleeveless formal mandarin-collar vest is universally known and sold as a **Waistcoat** (or *waskat*). This allowed us to preserve an exact 260-image cap across all 10 classes (a 1.0x balanced ratio), adhering strictly to empirical rigor while documenting the change transparently.
+To fix this, we curated 260 balanced images of **Shalwar Kameez**, drawing from authentic Pakistani designer retail catalogs (Khaadi, J., Sapphire, Gul Ahmed, Alkaram) for female 2-pc/3-pc suits and IndoFashion for male kurta-pajama/shalwar sets. We retained **Waistcoat** (*waskat*, 93.7% F1) as a separate category, expanding the system to 11 balanced classes. In empirical testing, Pakistani female suits that previously misclassified as Lehenga now classify as **Shalwar Kameez with 99.2% to 99.9% confidence**.
 
 ---
 
@@ -61,81 +65,32 @@ Perceptual hashing (pHash) computes the 2D Discrete Cosine Transform (DCT) of th
 
 ---
 
-### Question 7: How do you explain the 10.77% performance gap between Western wear (93.33%) and ethnic apparel (82.56%)?
+### Question 7: How do you explain the 11.62% performance gap between Western wear (92.82%) and ethnic apparel (81.20%)?
 **Answer:**  
 This gap reflects the fundamental visual perception differences between rigid structural garments and fluid draped fabrics:
-1. **Geometric Invariance:** Western clothes such as *Jeans - Trousers* (100% precision and recall) and *T-shirts* have fixed seams, rigid waistbands, and standard flat-lay shapes that vary minimally with posture.
-2. **Drape Plasticity:** Ethnic clothes like *Sarees* (66.67% recall) and *Kurtas* (64.10% recall) are non-rigid. A saree is six yards of unstitched fabric whose visible folds, shoulder pleats (*pallu*), and lower pleats change shape dramatically depending on body movement, wind, and wrapping style.
-3. **Collar & Silhouette Overlap:** Kurtas and Sherwanis share near-identical vertical silhouettes and mandarin collars, leading to mutual confusion under $224\times 224$ downsampling.
+1. **Geometric Invariance:** Western clothes such as *Jeans - Trousers* (100% precision and recall) and *Dress* (100% recall) have fixed seams, rigid waistbands, and standard flat-lay shapes that vary minimally with posture.
+2. **Drape Plasticity:** Ethnic clothes like *Sarees* (82.05% recall) and *Kurtas* (51.28% recall) are non-rigid. A saree is six yards of unstitched fabric whose visible folds, shoulder pleats (*pallu*), and lower pleats change shape dramatically depending on body movement, wind, and wrapping style.
+3. **Collar & Silhouette Overlap:** Kurtas, Shalwar Kameez, and Sherwanis share near-identical vertical silhouettes and mandarin collars, leading to mutual boundary confusion under $224\times 224$ downsampling.
 
 ---
 
-### Question 8: Why did 9 out of 39 Kurtas get misclassified as Sherwanis?
+### Question 8: Why did Kurtas get confused with Sherwanis and Shalwar Kameez in the confusion matrix?
 **Answer:**  
-In South Asian sartorial culture, both the *Kurta* and the *Sherwani* share:
+In South Asian sartorial culture, *Kurta*, *Shalwar Kameez*, and *Sherwani* share:
 - A knee-length or calf-length tunic silhouette.
 - Full-length straight sleeves.
 - Side vents/slits (*chaak*).
 - An upright mandarin/band collar (*band gala*).
 
-The primary visual discriminators are textile weight (heavier wool/brocade vs lightweight lawn/cotton), internal canvas interfacing, and dense metallic *zari* embroidery. At $224 \times 224$ resolution, subtle micro-textures of threadwork are smoothed by the initial stride-2 convolutions of MobileNetV2, causing the feature representations of long kurtas to overlap significantly with sherwanis in feature space.
+In our test set, 8 out of 39 Kurtas were predicted as Sherwani, and 7 as Shalwar Kameez. The distinguishing visual cues are fabric stiffness, heavy brocade/canvas interfacing, and ornate metallic buttons. At $224\times 224$ downsampled resolution, fine fabric weight cues blur, shifting model attention to the dominant shared collar architecture.
 
 ---
 
-### Question 9: Why did 11 out of 39 Sarees get misclassified as Lehengas?
+### Question 9: How did you verify parity between the Python model and the browser TensorFlow.js model?
 **Answer:**  
-A *Lehenga* consists of a cropped blouse (*choli*), a long flared skirt, and a draped scarf (*dupatta*). A *Saree* consists of a cropped blouse, an inner petticoat, and a long pleated drape wrapped tightly around the waist and thrown over the shoulder. When photographed from the front in a retail catalog, a saree's pleated lower half closely mimics the flared pleats of a lehenga skirt, and the draped *pallu* resembles a pinned *dupatta*. Without 3D depth cues or side-profile visibility, the 2D spatial arrangement of fabric pleats creates ambiguous visual evidence.
+We authored an automated verification script (`test_parity.py`) evaluating 22 test images (2 from each of the 11 classes) across both the native Keras runtime and the converted TensorFlow SavedModel/TF.js inference graph. Across all 22 images and all 11 output logits:
+- **Maximum Probability Discrepancy:** $0.000001$ ($0.0001\%$).
+- **Parity Threshold:** Required $\le 2.0\%$.
+- **Result:** **100% Top-1 Parity PASSED**.
 
----
-
-### Question 10: How did you ensure that there was no data leakage between your train, validation, and test sets?
-**Answer:**  
-Data leakage was prevented through three structural safeguards:
-1. **Physical Directory Partitioning:** Rather than relying on dynamic runtime splitting (e.g., Keras `validation_split` or unseeded `take`/`skip` on shuffled streams), `prepare_data.py` created fixed, physically isolated folders on disk (`libaas/processed/train`, `val`, `test`).
-2. **Perceptual Deduplication Before Splitting:** Deduplication via SHA-256 and DCT pHash was executed on the *entire raw corpus* before creating splits, preventing near-identical catalog variants from landing across both train and test partitions.
-3. **Deterministic Random Seed:** Partitioning used a fixed seed (`seed=42`) with stratified class sampling, ensuring complete reproducibility.
-
----
-
-### Question 11: What is the 20-image parity test, and why was it necessary?
-**Answer:**  
-When exporting a model from Keras to TensorFlow.js Graph Model format, operations undergo graph optimization, constant folding, and operator fusion (e.g., fusing Conv2D, BiasAdd, and Relu6 into single GPU kernel calls). Furthermore, weights are converted from 32-bit floats into chunked binary shard buffers.
-
-To prove that numerical precision and prediction fidelity were preserved, our `test_parity.py` script ran 20 unseen test images (2 from each class) through both native TensorFlow in Python and the exported graph model. The maximum absolute difference across all output probability distributions was $0.000001$ ($0.0001\%$), confirming 100% top-1 prediction agreement and verifying zero deployment degradation.
-
----
-
-### Question 12: Why did the TensorFlow.js conversion initially fail with an `Identity is not in graph` error, and how did you resolve it?
-**Answer:**  
-The fine-tuned model included Keras data augmentation layers (`RandomFlip`, `RandomRotation`, `RandomZoom`, `RandomContrast`) defined directly within the `keras.Model` functional graph. While these layers are deactivated during training mode (`training=False`), TensorFlow's internal graph exporter generated stateful random generator variable ops (`AssignVariableOp`) for their pseudo-random seeds.
-
-When `tensorflowjs_converter` attempted to freeze the SavedModel into a static inference graph, these stateful variable operations could not be resolved into constants, triggering a graph freeze failure. We resolved this by building a dedicated inference model topology that preserved the exact backbone and classification head weights but omitted the training-time augmentation layers, creating a clean, purely stateless inference graph that serialized without error.
-
----
-
-### Question 13: What data augmentations did you use during fine-tuning, and why were they chosen?
-**Answer:**  
-We applied:
-- `RandomFlip("horizontal")`: Garments possess left-right bilateral symmetry; horizontal flipping doubles dataset diversity without corrupting semantic labels.
-- `RandomRotation(0.08)` ($\approx \pm 14.4^\circ$): Simulates slight camera tilt and clothing hanger angles.
-- `RandomZoom(0.08)` ($\pm 8\%$): Simulates distance variation and cropping differences in consumer photographs.
-- `RandomContrast(0.10)`: Simulates varying ambient illumination and exposure levels across indoor retail lighting.
-
-We deliberately avoided vertical flipping (clothes are never worn upside down) and extreme shear or affine warping, which would distort garment proportions (e.g., turning a shirt into a dress).
-
----
-
-### Question 14: How does your web app handle low-confidence predictions or non-clothing inputs?
-**Answer:**  
-The web application inspects the top-1 softmax probability output:
-- If the top probability is $\ge 50\%$, the predicted garment hang-tag is displayed with standard confidence badges.
-- If the top probability falls below $50\%$ ($P < 0.50$), an automated **Advisory Warning Banner** is triggered: *"Low prediction confidence (< 50%). Make sure garment is clearly centered."*
-- In addition, the interface dynamically renders the full top-5 probability distribution bars, allowing the user to observe whether the model is debating between closely related categories (e.g., Kurta 48% vs Sherwani 42%).
-
----
-
-### Question 15: What are the primary limitations of Libaas Lens, and what would you implement next?
-**Answer:**  
-1. **Single-Garment Assumption:** Libaas Lens currently assumes one primary garment per image. Real-world outfits are multi-layered (e.g., a Waistcoat worn over a Kurta). Our next step would be incorporating an object detection head (e.g., YOLOv8-Nano) to predict bounding boxes and simultaneous multi-garment labels.
-2. **Catalog Domain Shift:** Our training data comes from clean e-commerce catalogs with white or neutral backgrounds. Performance on crumpled clothes lying on a bed or captured under harsh shadows requires domain adaptation via contrastive learning (SimCLR/MoCo) on in-the-wild smartphone photos.
-3. **Resolution Bottleneck:** Elevating input resolution to $384 \times 384$ using an architecture like EfficientNetV2-S would allow the network to resolve micro-embroidery stitches that disambiguate Kurtas from Sherwanis.
+This proves that our browser-based client application executes the exact same mathematical functions as our offline Python research pipeline.

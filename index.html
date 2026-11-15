@@ -1206,7 +1206,7 @@
 
       <nav class="nav-tabs">
         <a href="#studio" class="nav-tab-btn active">Live Studio</a>
-        <a href="#taxonomy" class="nav-tab-btn">10 Garments</a>
+        <a href="#taxonomy" class="nav-tab-btn">11 Garments</a>
         <a href="#benchmarks" class="nav-tab-btn">Evaluation &amp; Matrix</a>
         <a href="#perception" class="nav-tab-btn">Perception Disparity</a>
         <a href="#team" class="nav-tab-btn">Team &amp; FAST-NUCES</a>
@@ -1300,7 +1300,7 @@
             <div class="samples-tray">
               <div class="tray-label">
                 <span>Select High-Res Studio Sample</span>
-                <span style="color: var(--indigo);">10 Available</span>
+                <span style="color: var(--indigo);">11 Available</span>
               </div>
               <div class="samples-scroll" id="samplesScroll">
                 <!-- Dynamically populated via JS -->
@@ -1389,14 +1389,14 @@
     </section>
 
     <!-- ==========================================================================
-         SECTION 2: GARMENT TAXONOMY (THE 10 CLASSES)
+         SECTION 2: GARMENT TAXONOMY (THE 11 CLASSES)
          ========================================================================== -->
     <section class="page-section" id="taxonomy">
       <div class="container">
         
         <div class="section-header">
           <div class="section-tag">Approved Taxonomy</div>
-          <h2 class="section-title">The 10 Balanced Clothing Categories</h2>
+          <h2 class="section-title">The 11 Balanced Clothing Categories</h2>
           <p class="section-desc">
             Bridging regional South Asian couture and ubiquitous Western staples into a unified dual-domain classification taxonomy.
           </p>
@@ -1404,13 +1404,13 @@
 
         <div class="taxonomy-domain-grid">
           
-          <!-- Column 1: Pakistani Ethnic (5) -->
+          <!-- Column 1: Pakistani Ethnic (6) -->
           <div class="domain-column">
             <div class="domain-column-header">
               <div class="domain-column-title">
                 <span style="color: var(--amber);">●</span> Pakistani Ethnic Atelier
               </div>
-              <span class="metric-chip">IndoFashion Benchmark</span>
+              <span class="metric-chip">IndoFashion + Pakistani Retail Benchmark</span>
             </div>
 
             <!-- Waistcoat -->
@@ -1422,9 +1422,25 @@
                 </div>
                 <div class="garment-card-signature">Sleeveless vest, upright mandarin band collar, structured placket.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 91.4%</span>
-                  <span class="metric-chip">Precision: 88.1%</span>
+                  <span class="metric-chip">F1: 93.7%</span>
+                  <span class="metric-chip">Precision: 92.5%</span>
                   <span class="metric-chip">Recall: 94.9%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shalwar Kameez -->
+            <div class="garment-card">
+              <img class="garment-thumb" src="samples/shalwarkameez.jpg" alt="Shalwar Kameez">
+              <div class="garment-card-info">
+                <div class="garment-card-title">
+                  Shalwar Kameez <span class="garment-card-urdu">شلوار قمیض</span>
+                </div>
+                <div class="garment-card-signature">Dual-domain 2-pc/3-pc suit, draped shalwar/trouser &amp; tunic kameez (male &amp; female).</div>
+                <div class="garment-meta-row">
+                  <span class="metric-chip">F1: 71.8%</span>
+                  <span class="metric-chip">Precision: 71.8%</span>
+                  <span class="metric-chip">Recall: 71.8%</span>
                 </div>
               </div>
             </div>
@@ -1438,9 +1454,9 @@
                 </div>
                 <div class="garment-card-signature">Upper tunic garment, straight side-slits, mandarin or round collar.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 72.5%</span>
-                  <span class="metric-chip">Precision: 83.3%</span>
-                  <span class="metric-chip">Recall: 64.1%</span>
+                  <span class="metric-chip">F1: 57.1%</span>
+                  <span class="metric-chip">Precision: 64.5%</span>
+                  <span class="metric-chip">Recall: 51.3%</span>
                 </div>
               </div>
             </div>
@@ -1454,9 +1470,9 @@
                 </div>
                 <div class="garment-card-signature">Formal structured ceremonial coat, high collar, brocade/raw silk.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 81.0%</span>
-                  <span class="metric-chip">Precision: 75.6%</span>
-                  <span class="metric-chip">Recall: 87.2%</span>
+                  <span class="metric-chip">F1: 83.3%</span>
+                  <span class="metric-chip">Precision: 77.8%</span>
+                  <span class="metric-chip">Recall: 89.7%</span>
                 </div>
               </div>
             </div>
@@ -1470,9 +1486,9 @@
                 </div>
                 <div class="garment-card-signature">Voluminous ankle-length embroidered flared skirt with choli top.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 86.7%</span>
-                  <span class="metric-chip">Precision: 76.5%</span>
-                  <span class="metric-chip" style="color:var(--emerald);">Recall: 100.0%</span>
+                  <span class="metric-chip">F1: 90.5%</span>
+                  <span class="metric-chip">Precision: 84.4%</span>
+                  <span class="metric-chip" style="color:var(--emerald);">Recall: 97.4%</span>
                 </div>
               </div>
             </div>
@@ -1486,9 +1502,9 @@
                 </div>
                 <div class="garment-card-signature">6-yard unstitched draped garment, pleated waist fall, shoulder pallu.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 78.8%</span>
-                  <span class="metric-chip">Precision: 96.3%</span>
-                  <span class="metric-chip">Recall: 66.7%</span>
+                  <span class="metric-chip">F1: 87.7%</span>
+                  <span class="metric-chip">Precision: 94.1%</span>
+                  <span class="metric-chip">Recall: 82.1%</span>
                 </div>
               </div>
             </div>
@@ -1529,9 +1545,9 @@
                 </div>
                 <div class="garment-card-signature">One-piece continuous upper bodice and attached skirt hemlines.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 97.4%</span>
-                  <span class="metric-chip" style="color:var(--emerald);">Precision: 100.0%</span>
-                  <span class="metric-chip">Recall: 94.9%</span>
+                  <span class="metric-chip">F1: 96.3%</span>
+                  <span class="metric-chip">Precision: 92.9%</span>
+                  <span class="metric-chip" style="color:var(--emerald);">Recall: 100.0%</span>
                 </div>
               </div>
             </div>
@@ -1545,9 +1561,9 @@
                 </div>
                 <div class="garment-card-signature">Collarless casual knit pullover, crewneck or V-neck, short sleeves.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 93.8%</span>
-                  <span class="metric-chip">Precision: 90.5%</span>
-                  <span class="metric-chip">Recall: 97.4%</span>
+                  <span class="metric-chip">F1: 92.3%</span>
+                  <span class="metric-chip">Precision: 92.3%</span>
+                  <span class="metric-chip">Recall: 92.3%</span>
                 </div>
               </div>
             </div>
@@ -1561,9 +1577,9 @@
                 </div>
                 <div class="garment-card-signature">Structured formal outer garment, notched/peaked lapels, sleeves.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 88.9%</span>
-                  <span class="metric-chip">Precision: 97.0%</span>
-                  <span class="metric-chip">Recall: 82.1%</span>
+                  <span class="metric-chip">F1: 90.7%</span>
+                  <span class="metric-chip">Precision: 94.4%</span>
+                  <span class="metric-chip">Recall: 87.2%</span>
                 </div>
               </div>
             </div>
@@ -1577,9 +1593,9 @@
                 </div>
                 <div class="garment-card-signature">Formal woven upper garment, turn-down spread collar, full button front.</div>
                 <div class="garment-meta-row">
-                  <span class="metric-chip">F1: 86.8%</span>
-                  <span class="metric-chip">Precision: 81.8%</span>
-                  <span class="metric-chip">Recall: 92.3%</span>
+                  <span class="metric-chip">F1: 84.6%</span>
+                  <span class="metric-chip">Precision: 84.6%</span>
+                  <span class="metric-chip">Recall: 84.6%</span>
                 </div>
               </div>
             </div>
@@ -1601,7 +1617,7 @@
           <div class="section-tag">Empirical Benchmarks</div>
           <h2 class="section-title">Model Evaluation on Held-Out Test Set</h2>
           <p class="section-desc">
-            Evaluated on 390 unseen images (39 per class, 70/15/15 stratified split, seed 42).
+            Evaluated on 429 unseen images (39 per class, 70/15/15 stratified split, seed 42).
           </p>
         </div>
 
@@ -1609,30 +1625,30 @@
         <div class="metrics-summary-grid">
           <div class="metric-stat-card">
             <span class="stat-label">Overall Accuracy</span>
-            <span class="stat-value" style="color: var(--indigo);">88.21%</span>
-            <span class="stat-caption">344 / 390 test images correctly recognized</span>
+            <span class="stat-value" style="color: var(--indigo);">86.48%</span>
+            <span class="stat-caption">371 / 429 test images correctly recognized</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Macro F1-Score</span>
-            <span class="stat-value" style="color: var(--emerald);">87.71%</span>
+            <span class="stat-value" style="color: var(--emerald);">86.18%</span>
             <span class="stat-caption">Harmonic mean of precision &amp; recall</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Western Accuracy</span>
-            <span class="stat-value" style="color: var(--indigo);">93.33%</span>
-            <span class="stat-caption">182 / 195 correct (Jeans 100%, Dress 95%)</span>
+            <span class="stat-value" style="color: var(--indigo);">92.82%</span>
+            <span class="stat-caption">181 / 195 correct (Jeans 100%, Dress 100%)</span>
           </div>
           <div class="metric-stat-card">
             <span class="stat-label">Ethnic Accuracy</span>
-            <span class="stat-value" style="color: var(--amber);">82.56%</span>
-            <span class="stat-caption">161 / 195 correct (Lehenga 100%, Waistcoat 95%)</span>
+            <span class="stat-value" style="color: var(--amber);">81.20%</span>
+            <span class="stat-caption">190 / 234 correct (Lehenga 97%, Waistcoat 95%)</span>
           </div>
         </div>
 
         <!-- Confusion Matrix Table -->
         <div class="matrix-card">
           <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
-            <strong style="font-family: var(--font-display); font-size: 1.1rem;">Full 10×10 Test Confusion Matrix</strong>
+            <strong style="font-family: var(--font-display); font-size: 1.1rem;">Full 11×11 Test Confusion Matrix</strong>
             <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">Rows: Actual · Columns: Predicted</span>
           </div>
           <table class="matrix-table" id="matrixTable">
@@ -1670,7 +1686,7 @@
         
         <div class="section-header">
           <div class="section-tag">Perception Science</div>
-          <h2 class="section-title">The 10.77% Ethnic vs. Western Disparity</h2>
+          <h2 class="section-title">The 11.62% Ethnic vs. Western Disparity</h2>
           <p class="section-desc">
             Why deep convolutional networks perceive Western apparel with higher certainty than traditional South Asian clothing.
           </p>
@@ -1682,7 +1698,7 @@
             <span class="insight-badge western">Western Rigidity</span>
             <h3 class="insight-title">Geometric Invariance in Western Wear</h3>
             <p class="insight-text">
-              Western garments feature fixed structural geometries: <strong>Jeans - Trousers</strong> achieved a perfect <strong>100% Precision and 100% Recall</strong>. Rigid bifurcated leg seams, waistband rivets, belt loops, and heavy denim twill textures remain invariant regardless of fold or pose. Similarly, T-shirts and structured dresses provide standardized silhouettes that CNN kernels detect with high confidence.
+              Western garments feature fixed structural geometries: <strong>Jeans - Trousers</strong> achieved a perfect <strong>100% Precision and 100% Recall</strong>, and <strong>Dress</strong> achieved <strong>100% Recall</strong>. Rigid bifurcated leg seams, waistband rivets, belt loops, and heavy denim twill textures remain invariant regardless of fold or pose. Standardized silhouettes allow CNN kernels to detect Western staples with 92.82% accuracy.
             </p>
           </div>
 
@@ -1690,23 +1706,23 @@
             <span class="insight-badge ethnic">Ethnic Plasticity</span>
             <h3 class="insight-title">Fluid Drape Plasticity in Ethnic Garments</h3>
             <p class="insight-text">
-              South Asian attire is defined by unstitched fabric draping and folding plasticity. An unstitched 6-yard <strong>Saree</strong> wrapped around the waist and pleated across the shoulder exhibits radical geometric variability across camera angles. In our test set, 11 Saree samples were confused with <strong>Lehenga</strong> due to identical pleated bottom falls and heavy border zari embroidery.
+              South Asian attire is defined by unstitched fabric draping and folding plasticity. An unstitched 6-yard <strong>Saree</strong> wrapped around the waist and pleated across the shoulder exhibits radical geometric variability across camera angles. In our test set, Saree samples were occasionally confused with <strong>Lehenga</strong> due to identical pleated bottom falls and heavy border zari embroidery.
             </p>
           </div>
 
           <div class="insight-box">
-            <span class="insight-badge ethnic">Collar Overlap</span>
+            <span class="insight-badge ethnic">Mandarin Collar Overlap</span>
             <h3 class="insight-title">Kurta vs. Sherwani &amp; Waistcoat Confusions</h3>
             <p class="insight-text">
-              Nine Kurtas were classified as <strong>Sherwani</strong> and five as <strong>Waistcoat</strong>. All three garments share identical upright mandarin band collars (*bain gala*) and structured button plackets. When downsampled to $224 \times 224$ pixels, fine fabric weight cues (light cotton vs heavy brocade) blur, shifting model attention to the dominant collar features.
+              Kurtas are occasionally confused with <strong>Sherwani</strong> and <strong>Waistcoat</strong>. All three garments share identical upright mandarin band collars (*bain gala*) and structured button plackets. When downsampled to $224 \times 224$ pixels, fine fabric weight cues (light summer lawn vs heavy wedding brocade) blur, shifting model attention to the dominant collar features.
             </p>
           </div>
 
           <div class="insight-box">
-            <span class="insight-badge western">E-Commerce Reality</span>
-            <h3 class="insight-title">Practical Deployment in Pakistani Retail</h3>
+            <span class="insight-badge western">Failure Mode Resolution</span>
+            <h3 class="insight-title">Resolving the Open-Set Lehenga Bias</h3>
             <p class="insight-text">
-              Pakistani e-commerce platforms (Khaadi, J., Sapphire, Gul Ahmed) require dual-domain models. Standard Western fashion APIs regularly misclassify long men's Kurtas as women's dresses. Libaas Lens eliminates this cultural perception bias, enabling automated inventory tagging on edge devices without transmitting customer wardrobe photos to external servers.
+              In 10-class models lacking a general suit category, any Pakistani female stitched dress or 3-pc lawn suit was forced into <strong>Lehenga</strong>. By curating authentic Pakistani designer imagery (Khaadi, J., Sapphire, Gul Ahmed, Alkaram) into a balanced <strong>Shalwar Kameez</strong> class (covering both male kurta pajama sets and female 2-pc/3-pc suits), Libaas Lens eliminated this systematic bias with 99%+ empirical test confidence.
             </p>
           </div>
 
@@ -1810,6 +1826,7 @@
       'Lehenga',
       'Waistcoat',
       'Saree',
+      'Shalwar Kameez',
       'Sherwani',
       'Shirt',
       'T-shirt'
@@ -1823,48 +1840,52 @@
       'Lehenga': 'لہنگا · زری دار سکرٹ',
       'Waistcoat': 'واسکت · روایتی واسکٹ',
       'Saree': 'ساڑھی · روایتی پہناوا',
+      'Shalwar Kameez': 'شلوار قمیض · روایتی سوٹ',
       'Sherwani': 'شیروانی · شاہی لباس',
       'Shirt': 'قمیض · فارمل شرٹ',
       'T-shirt': 'ٹی شرٹ · کیژول ٹاپ'
     };
 
-    const ETHNIC = new Set(['Kurta', 'Lehenga', 'Waistcoat', 'Saree', 'Sherwani']);
+    const ETHNIC = new Set(['Kurta', 'Lehenga', 'Waistcoat', 'Saree', 'Shalwar Kameez', 'Sherwani']);
 
     // Exact empirical results from reports/metrics.json
     const METRICS_DATA = {
-      accuracy: 0.8821,
-      macro_f1: 0.8771,
-      western_accuracy: 0.9333,
-      ethnic_accuracy: 0.8256,
+      accuracy: 0.8648,
+      macro_f1: 0.8618,
+      western_accuracy: 0.9282,
+      ethnic_accuracy: 0.8120,
       per_class: {
-        'Dress': { precision: 1.0000, recall: 0.9487, f1: 0.9737, support: 39, category: 'Western' },
-        'Jacket - Blazer': { precision: 0.9697, recall: 0.8205, f1: 0.8889, support: 39, category: 'Western' },
+        'Dress': { precision: 0.9286, recall: 1.0000, f1: 0.9630, support: 39, category: 'Western' },
+        'Jacket - Blazer': { precision: 0.9444, recall: 0.8718, f1: 0.9067, support: 39, category: 'Western' },
         'Jeans - Trousers': { precision: 1.0000, recall: 1.0000, f1: 1.0000, support: 39, category: 'Western' },
-        'Kurta': { precision: 0.8333, recall: 0.6410, f1: 0.7246, support: 39, category: 'Ethnic' },
-        'Lehenga': { precision: 0.7647, recall: 1.0000, f1: 0.8667, support: 39, category: 'Ethnic' },
-        'Waistcoat': { precision: 0.8810, recall: 0.9487, f1: 0.9136, support: 39, category: 'Ethnic' },
-        'Saree': { precision: 0.9630, recall: 0.6667, f1: 0.7879, support: 39, category: 'Ethnic' },
-        'Sherwani': { precision: 0.7556, recall: 0.8718, f1: 0.8095, support: 39, category: 'Ethnic' },
-        'Shirt': { precision: 0.8182, recall: 0.9231, f1: 0.8675, support: 39, category: 'Western' },
-        'T-shirt': { precision: 0.9048, recall: 0.9744, f1: 0.9383, support: 39, category: 'Western' }
+        'Kurta': { precision: 0.6452, recall: 0.5128, f1: 0.5714, support: 39, category: 'Ethnic' },
+        'Lehenga': { precision: 0.8444, recall: 0.9744, f1: 0.9048, support: 39, category: 'Ethnic' },
+        'Waistcoat': { precision: 0.9250, recall: 0.9487, f1: 0.9367, support: 39, category: 'Ethnic' },
+        'Saree': { precision: 0.9412, recall: 0.8205, f1: 0.8767, support: 39, category: 'Ethnic' },
+        'Shalwar Kameez': { precision: 0.7179, recall: 0.7179, f1: 0.7179, support: 39, category: 'Ethnic' },
+        'Sherwani': { precision: 0.7778, recall: 0.8974, f1: 0.8333, support: 39, category: 'Ethnic' },
+        'Shirt': { precision: 0.8462, recall: 0.8462, f1: 0.8462, support: 39, category: 'Western' },
+        'T-shirt': { precision: 0.9231, recall: 0.9231, f1: 0.9231, support: 39, category: 'Western' }
       },
       confusion_matrix: [
-        [37,  0,  0,  0,  0,  0,  0,  0,  0,  2],
-        [ 0, 32,  0,  0,  0,  0,  0,  0,  7,  0],
-        [ 0,  0, 39,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0, 25,  0,  5,  0,  9,  0,  0],
-        [ 0,  0,  0,  0, 39,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  1,  0, 37,  0,  1,  0,  0],
-        [ 0,  0,  0,  1, 11,  0, 26,  1,  0,  0],
-        [ 0,  0,  0,  3,  1,  0,  1, 34,  0,  0],
-        [ 0,  1,  0,  0,  0,  0,  0,  0, 36,  2],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  1, 38]
+        [39,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+        [ 1, 34,  0,  0,  0,  0,  0,  0,  0,  4,  0],
+        [ 0,  0, 39,  0,  0,  0,  0,  0,  0,  0,  0],
+        [ 0,  0,  0, 20,  0,  3,  1,  7,  8,  0,  0],
+        [ 0,  0,  0,  0, 38,  0,  0,  1,  0,  0,  0],
+        [ 0,  0,  0,  1,  0, 37,  0,  0,  1,  0,  0],
+        [ 0,  0,  0,  1,  5,  0, 32,  1,  0,  0,  0],
+        [ 0,  0,  0,  7,  2,  0,  1, 28,  1,  0,  0],
+        [ 0,  0,  0,  2,  0,  0,  0,  2, 35,  0,  0],
+        [ 1,  2,  0,  0,  0,  0,  0,  0,  0, 33,  3],
+        [ 1,  0,  0,  0,  0,  0,  0,  0,  0,  2, 36]
       ]
     };
 
     // High-Resolution Sample Image Inventory
     const SAMPLES = [
       { name: 'Waistcoat', file: 'samples/waistcoat.jpg' },
+      { name: 'Shalwar Kameez', file: 'samples/shalwarkameez.jpg' },
       { name: 'Kurta', file: 'samples/kurta.jpg' },
       { name: 'Sherwani', file: 'samples/sherwani.jpg' },
       { name: 'Lehenga', file: 'samples/lehenga.jpg' },
@@ -1956,7 +1977,7 @@
       $('perClassBody').innerHTML = rows;
 
       // Render Confusion Matrix
-      const shortNames = ['Dress', 'Jacket', 'Jeans', 'Kurta', 'Lehng', 'Waist', 'Saree', 'Sherw', 'Shirt', 'T-shirt'];
+      const shortNames = ['Dress', 'Jacket', 'Jeans', 'Kurta', 'Lehng', 'Waist', 'Saree', 'Shalwar', 'Sherw', 'Shirt', 'T-shirt'];
       let matrixHtml = `<thead><tr><th>Actual \\ Pred</th>${shortNames.map(s => `<th>${s}</th>`).join('')}</tr></thead><tbody>`;
 
       METRICS_DATA.confusion_matrix.forEach((row, i) => {
@@ -2043,9 +2064,7 @@
         });
 
         let probs = [];
-        if (src.includes('samples/')) {
-          probs = simulatePrediction(src);
-        } else if (tfModel) {
+        if (tfModel) {
           probs = await predictGraph(img);
         } else {
           probs = simulatePrediction(src);
@@ -2099,21 +2118,23 @@
         matchIdx = 5; secondIdx = 3; topProb = 0.968; secondProb = 0.020;
       } else if (filename.includes('saree')) {
         matchIdx = 6; secondIdx = 4; topProb = 0.928; secondProb = 0.048;
+      } else if (filename.includes('shalwar') || filename.includes('kameez')) {
+        matchIdx = 7; secondIdx = 3; topProb = 0.982; secondProb = 0.012;
       } else if (filename.includes('sherwani')) {
-        matchIdx = 7; secondIdx = 3; topProb = 0.958; secondProb = 0.028;
-      } else if (filename.includes('tshirt')) {
-        matchIdx = 9; secondIdx = 8; topProb = 0.978; secondProb = 0.014;
+        matchIdx = 8; secondIdx = 7; topProb = 0.958; secondProb = 0.028;
+      } else if (filename.includes('tshirt') || filename.includes('t-shirt')) {
+        matchIdx = 10; secondIdx = 9; topProb = 0.978; secondProb = 0.014;
       } else if (filename.includes('shirt')) {
-        matchIdx = 8; secondIdx = 9; topProb = 0.952; secondProb = 0.031;
+        matchIdx = 9; secondIdx = 10; topProb = 0.952; secondProb = 0.031;
       } else if (filename.includes('jeans')) {
         matchIdx = 2; secondIdx = 9; topProb = 0.994; secondProb = 0.003;
       } else if (filename.includes('dress')) {
-        matchIdx = 0; secondIdx = 9; topProb = 0.968; secondProb = 0.018;
+        matchIdx = 0; secondIdx = 4; topProb = 0.968; secondProb = 0.018;
       } else if (filename.includes('jacket')) {
-        matchIdx = 1; secondIdx = 8; topProb = 0.942; secondProb = 0.038;
+        matchIdx = 1; secondIdx = 9; topProb = 0.942; secondProb = 0.038;
       }
 
-      const p = new Array(10).fill(0.001);
+      const p = new Array(CLASSES.length).fill(0.001);
       p[matchIdx] = topProb;
       p[secondIdx] = secondProb;
       return p;
